@@ -1,1 +1,240 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101020">
+  <title>AI Genius</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #101020;
+      color: #fff;
+      min-height: 100vh;
+    }
+    header {
+      padding: 20px;
+      border-bottom: 1px solid #292942;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo { font-size: 23px; font-weight: bold; }
+    .logo span { color: #a78bfa; }
+    .badge {
+      color: #c4b5fd;
+      border: 1px solid #514477;
+      padding: 7px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 30px 16px;
+    }
+    .hero { text-align: center; margin: 22px 0 30px; }
+    .hero h1 { font-size: clamp(30px, 7vw, 48px); margin-bottom: 12px; }
+    .hero h1 span {
+      background: linear-gradient(90deg, #a78bfa, #67e8f9);
+      color: transparent;
+      background-clip: text;
+    }
+    .hero p { color: #a6a6c3; line-height: 1.6; }
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .tool {
+      background: #19192d;
+      border: 1px solid #30304b;
+      border-radius: 14px;
+      padding: 17px 12px;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+    }
+    .tool.active { border-color: #a78bfa; background: #25203d; }
+    .tool .emoji { font-size: 24px; display: block; margin-bottom: 10px; }
+    .tool strong { display: block; margin-bottom: 5px; }
+    .tool small { color: #aaaac4; }
+    .panel {
+      background: #19192d;
+      border: 1px solid #30304b;
+      border-radius: 16px;
+      padding: 18px;
+    }
+    label { display: block; margin-bottom: 10px; font-weight: bold; }
+    textarea {
+      width: 100%;
+      min-height: 115px;
+      resize: vertical;
+      background: #101020;
+      color: white;
+      border: 1px solid #383854;
+      border-radius: 10px;
+      padding: 14px;
+      font: inherit;
+      line-height: 1.5;
+    }
+    textarea:focus { outline: 1px solid #a78bfa; }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    button { font: inherit; }
+    .primary {
+      flex: 1;
+      padding: 13px;
+      background: #8b5cf6;
+      color: white;
+      border: 0;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .secondary {
+      padding: 13px;
+      background: #292942;
+      color: white;
+      border: 1px solid #424260;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #result {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.7;
+      color: #e0e0f3;
+      margin-top: 18px;
+    }
+    .note { color: #a6a6c3; font-size: 13px; line-height: 1.6; }
+    footer { text-align: center; padding: 25px; color: #8585a5; font-size: 12px; }
+    @media (max-width: 380px) {
+      .tools { grid-template-columns: 1fr; }
+      .badge { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">✨ AI <span>Genius</span></div>
+    <div class="badge">YOUR AI WORKSPACE</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>What can we <span>create?</span></h1>
+      <p>Your creative workspace for AI chat, writing, ideas and image prompts.</p>
+    </section>
+
+    <section class="tools" aria-label="AI tools">
+      <button class="tool active" data-mode="chat">
+        <span class="emoji">💬</span>
+        <strong>AI Chat</strong>
+        <small>Ask questions and explore ideas</small>
+      </button>
+      <button class="tool" data-mode="write">
+        <span class="emoji">✍️</span>
+        <strong>AI Writer</strong>
+        <small>Draft posts, stories and captions</small>
+      </button>
+      <button class="tool" data-mode="image">
+        <span class="emoji">🎨</span>
+        <strong>Image Prompts</strong>
+        <small>Create prompts for artwork</small>
+      </button>
+      <button class="tool" data-mode="ideas">
+        <span class="emoji">💡</span>
+        <strong>Idea Generator</strong>
+        <small>Discover new possibilities</small>
+      </button>
+    </section>
+
+    <section class="panel">
+      <label id="promptLabel" for="prompt">What would you like help with?</label>
+      <textarea id="prompt" placeholder="Type your question or idea here..."></textarea>
+      <div class="actions">
+        <button class="primary" id="generate">Generate</button>
+        <button class="secondary" id="clear">Clear</button>
+      </div>
+      <div id="result" aria-live="polite"></div>
+      <p class="note">
+        Starter version: this interface works without an API key.
+        Live AI responses require a connected AI service.
+      </p>
+    </section>
+  </main>
+
+  <footer>AI Genius · Built for your ideas</footer>
+
+  <script>
+    const tools = document.querySelectorAll(".tool");
+    const prompt = document.getElementById("prompt");
+    const result = document.getElementById("result");
+    const label = document.getElementById("promptLabel");
+    const generate = document.getElementById("generate");
+
+    let mode = "chat";
+
+    const labels = {
+      chat: "What would you like help with?",
+      write: "What would you like to write?",
+      image: "Describe the image you imagine",
+      ideas: "What topic do you need ideas for?"
+    };
+
+    tools.forEach(tool => {
+      tool.addEventListener("click", () => {
+        tools.forEach(item => item.classList.remove("active"));
+        tool.classList.add("active");
+        mode = tool.dataset.mode;
+        label.textContent = labels[mode];
+        prompt.placeholder = labels[mode];
+        result.textContent = "";
+      });
+    });
+
+    generate.addEventListener("click", () => {
+      const text = prompt.value.trim();
+
+      if (!text) {
+        result.textContent = "Please enter a question or idea first.";
+        prompt.focus();
+        return;
+      }
+
+      if (mode === "image") {
+        result.textContent =
+          "IMAGE PROMPT\n\n" +
+          text +
+          "\n\nStyle: highly detailed, beautiful lighting, balanced composition, high quality, professional digital artwork.\n\nNote: This is a prompt draft, not a generated image.";
+      } else if (mode === "write") {
+        result.textContent =
+          "WRITING DRAFT\n\nTopic: " + text +
+          "\n\nStart by introducing your main idea, explain the key points clearly, and finish with a memorable conclusion.\n\nConnect an AI service to generate a complete personalized draft.";
+      } else if (mode === "ideas") {
+        result.textContent =
+          "IDEA STARTER\n\nTopic: " + text +
+          "\n\n1. Explore a beginner-friendly approach.\n2. Try a creative or unusual angle.\n3. Make a simple step-by-step project.\n4. Create something useful for other people.\n\nConnect an AI service for personalized ideas.";
+      } else {
+        result.textContent =
+          "Your question: " + text +
+          "\n\nAI Genius is ready for its next step. Connect a live AI service to receive actual AI-generated answers.";
+      }
+    });
+
+    document.getElementById("clear").addEventListener("click", () => {
+      prompt.value = "";
+      result.textContent = "";
+      prompt.focus();
+    });
+  </script>
+</body>
+</html>
