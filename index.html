@@ -4,25 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#101020">
+  <meta name="description" content="AI Genius - Chat, writing, ideas, image and video prompts, and voice tools.">
   <title>AI Genius</title>
+
   <style>
     * { box-sizing: border-box; }
+
+    :root {
+      --bg: #101020;
+      --panel: #19192d;
+      --border: #30304b;
+      --purple: #8b5cf6;
+      --text: #fff;
+      --muted: #aaaac4;
+    }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #101020;
-      color: #fff;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
     }
 
     header {
-      padding: 20px;
+      padding: 17px;
       border-bottom: 1px solid #292942;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .logo { font-size: 23px; font-weight: bold; }
@@ -33,18 +45,17 @@
       border: 1px solid #514477;
       padding: 7px 10px;
       border-radius: 20px;
-      font-size: 12px;
+      font-size: 11px;
     }
 
     main {
-      max-width: 760px;
+      max-width: 850px;
       margin: auto;
-      padding: 30px 16px;
+      padding: 20px 14px;
     }
 
-    .hero { text-align: center; margin: 22px 0 30px; }
-    .hero h1 { font-size: clamp(30px, 7vw, 48px); }
-
+    .hero { text-align: center; margin: 24px 0; }
+    .hero h1 { font-size: clamp(29px, 7vw, 46px); }
     .hero h1 span {
       background: linear-gradient(90deg, #a78bfa, #67e8f9);
       color: transparent;
@@ -57,18 +68,19 @@
     .tools {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 18px;
     }
 
     .tool {
-      background: #19192d;
-      border: 1px solid #30304b;
-      border-radius: 14px;
-      padding: 17px 12px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 11px;
       color: white;
       text-align: left;
       cursor: pointer;
+      min-width: 0;
     }
 
     .tool.active {
@@ -76,82 +88,109 @@
       background: #25203d;
     }
 
-    .emoji { font-size: 24px; display: block; margin-bottom: 10px; }
+    .emoji { font-size: 23px; display: block; margin-bottom: 8px; }
     .tool strong { display: block; margin-bottom: 5px; }
-    .tool small { color: #aaaac4; }
+    .tool small { color: var(--muted); line-height: 1.5; }
 
     .panel {
-      background: #19192d;
-      border: 1px solid #30304b;
+      background: var(--panel);
+      border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 18px;
+      padding: 16px;
     }
 
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
+    label { display: block; margin-bottom: 10px; font-weight: bold; }
 
     textarea {
       width: 100%;
       min-height: 115px;
       resize: vertical;
-      background: #101020;
+      background: var(--bg);
       color: white;
       border: 1px solid #383854;
       border-radius: 10px;
-      padding: 14px;
+      padding: 13px;
       font: inherit;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     textarea:focus { outline: 1px solid #a78bfa; }
 
-    .actions { display: flex; gap: 10px; margin-top: 12px; }
     button { font: inherit; }
-    button:disabled { opacity: .6; cursor: wait; }
+    button:disabled { opacity: .55; cursor: wait; }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .primary, .secondary {
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+    }
 
     .primary {
       flex: 1;
-      padding: 13px;
-      background: #8b5cf6;
-      color: white;
+      background: var(--purple);
       border: 0;
-      border-radius: 10px;
       font-weight: bold;
-      cursor: pointer;
     }
 
     .secondary {
-      padding: 13px;
       background: #292942;
-      color: white;
       border: 1px solid #424260;
-      border-radius: 10px;
-      cursor: pointer;
     }
 
     #result {
       white-space: pre-wrap;
       overflow-wrap: anywhere;
-      line-height: 1.7;
+      line-height: 1.75;
       color: #e0e0f3;
-      margin-top: 18px;
+      margin-top: 16px;
     }
 
-    .note { font-size: 13px; }
+    #generatedImage {
+      display: none;
+      width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+      margin-top: 16px;
+      border-radius: 12px;
+      background: var(--bg);
+    }
+
+    .note { font-size: 12px; }
+    .history { margin-top: 22px; }
+    .history h3 { font-size: 15px; }
+    .history-item {
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+      color: #d5d5ec;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .history-item button {
+      margin-top: 7px;
+      margin-right: 5px;
+    }
 
     footer {
       text-align: center;
-      padding: 25px;
+      padding: 24px;
       color: #8585a5;
       font-size: 12px;
     }
 
     @media (max-width: 380px) {
-      .tools { grid-template-columns: 1fr; }
-      .badge { font-size: 10px; }
+      header { padding: 12px; }
+      .badge { font-size: 9px; }
+      .panel { padding: 12px; }
+      .secondary { padding: 10px; }
     }
   </style>
 </head>
@@ -165,92 +204,209 @@
   <main>
     <section class="hero">
       <h1>What can we <span>create?</span></h1>
-      <p>Your creative workspace for AI chat, writing, ideas and image prompts.</p>
+      <p>Your AI workspace for chatting, writing, ideas, images, video and voice.</p>
     </section>
 
     <section class="tools" aria-label="AI tools">
       <button type="button" class="tool active" data-mode="chat">
         <span class="emoji">💬</span>
         <strong>AI Chat</strong>
-        <small>Ask questions and explore ideas</small>
+        <small>Ask questions and get responses</small>
       </button>
 
       <button type="button" class="tool" data-mode="write">
         <span class="emoji">✍️</span>
         <strong>AI Writer</strong>
-        <small>Draft posts, stories and captions</small>
+        <small>Posts, stories and captions</small>
       </button>
 
       <button type="button" class="tool" data-mode="image">
         <span class="emoji">🎨</span>
-        <strong>Image Prompts</strong>
-        <small>Create prompts for artwork</small>
+        <strong>Image Generator</strong>
+        <small>Create image prompts or display returned images</small>
       </button>
 
       <button type="button" class="tool" data-mode="ideas">
         <span class="emoji">💡</span>
         <strong>Idea Generator</strong>
-        <small>Discover new possibilities</small>
+        <small>Explore new possibilities</small>
+      </button>
+
+      <button type="button" class="tool" data-mode="video">
+        <span class="emoji">🎬</span>
+        <strong>Video Prompts</strong>
+        <small>Create cinematic video prompts</small>
+      </button>
+
+      <button type="button" class="tool" data-mode="voice">
+        <span class="emoji">🎙️</span>
+        <strong>Voice Assistant</strong>
+        <small>Speak your prompt and hear replies</small>
       </button>
     </section>
 
     <section class="panel">
-      <label id="promptLabel" for="prompt">
-        What would you like help with?
-      </label>
+      <label id="promptLabel" for="prompt">What would you like help with?</label>
 
-      <textarea id="prompt"
-        placeholder="Type your question or idea here..."></textarea>
+      <textarea id="prompt" placeholder="Type your question or idea here..."></textarea>
 
       <div class="actions">
-        <button type="button" class="primary" id="generate">
-          Generate
-        </button>
-        <button type="button" class="secondary" id="clear">
-          Clear
-        </button>
+        <button type="button" class="secondary" id="voiceInput">🎙️ Speak</button>
+        <button type="button" class="primary" id="generate">Generate</button>
+        <button type="button" class="secondary" id="clear">Clear</button>
       </div>
 
       <div id="result" role="status" aria-live="polite"></div>
+      <img id="generatedImage" alt="Image returned by the connected AI service">
+
+      <div class="actions">
+        <button type="button" class="secondary" id="copy">📋 Copy</button>
+        <button type="button" class="secondary" id="speakReply">🔊 Read aloud</button>
+        <button type="button" class="secondary" id="stopVoice">⏹ Stop voice</button>
+      </div>
 
       <p class="note" id="note">
-        AI Genius is ready to help. Enter a prompt to get started.
+        Ready. Choose a tool and enter your prompt.
       </p>
+
+      <section class="history">
+        <h3>🕘 Recent conversations</h3>
+        <div id="historyList"></div>
+        <button type="button" class="secondary" id="clearHistory">
+          Clear history
+        </button>
+      </section>
     </section>
   </main>
 
   <footer>AI Genius · Built for your ideas</footer>
 
   <script>
+    "use strict";
+
     const WORKER_URL =
       "https://ai-genius.emaillogin100-n.workers.dev";
 
-    const tools = document.querySelectorAll(".tool");
     const promptBox = document.getElementById("prompt");
     const result = document.getElementById("result");
     const label = document.getElementById("promptLabel");
     const generate = document.getElementById("generate");
     const clear = document.getElementById("clear");
     const note = document.getElementById("note");
+    const image = document.getElementById("generatedImage");
+    const voiceInput = document.getElementById("voiceInput");
+    const historyList = document.getElementById("historyList");
 
     let mode = "chat";
+    let recognition = null;
+    let history = [];
 
     const labels = {
       chat: "What would you like help with?",
       write: "What would you like to write?",
-      image: "Describe the image you imagine",
-      ideas: "What topic do you need ideas for?"
+      image: "Describe the image you want to create",
+      ideas: "What topic do you need ideas for?",
+      video: "Describe the video you want to create",
+      voice: "Type here or use the Speak button"
     };
 
-    tools.forEach(tool => {
-      tool.addEventListener("click", () => {
-        tools.forEach(item => item.classList.remove("active"));
-        tool.classList.add("active");
+    const instructions = {
+      chat: "",
+      write: "Act as a helpful AI writer. Create polished content for this request:\n",
+      image: "Create a detailed, high-quality image-generation prompt for this description. Include subject, setting, lighting, composition, and visual style:\n",
+      ideas: "Generate several original, practical ideas for this topic. Explain each briefly:\n",
+      video: "Create a detailed cinematic AI video prompt. Include scene, subject movement, camera movement, lighting, atmosphere, and visual style:\n",
+      voice: ""
+    };
 
+    function loadHistory() {
+      try {
+        const saved = localStorage.getItem("aiGeniusHistory");
+        history = saved ? JSON.parse(saved) : [];
+        if (!Array.isArray(history)) history = [];
+      } catch (_) {
+        history = [];
+      }
+      renderHistory();
+    }
+
+    function saveHistory(question, answer, savedMode) {
+      history.unshift({
+        question,
+        answer,
+        mode: savedMode,
+        time: new Date().toLocaleString()
+      });
+
+      history = history.slice(0, 20);
+
+      try {
+        localStorage.setItem("aiGeniusHistory", JSON.stringify(history));
+      } catch (_) {
+        note.textContent = "History is available for this session only.";
+      }
+
+      renderHistory();
+    }
+
+    function renderHistory() {
+      historyList.replaceChildren();
+
+      if (!history.length) {
+        const empty = document.createElement("p");
+        empty.className = "note";
+        empty.textContent = "Your recent conversations will appear here.";
+        historyList.appendChild(empty);
+        return;
+      }
+
+      history.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "history-item";
+
+        const title = document.createElement("div");
+        title.textContent = item.question;
+
+        const time = document.createElement("div");
+        time.className = "note";
+        time.textContent = item.time || "";
+
+        const open = document.createElement("button");
+        open.type = "button";
+        open.className = "secondary";
+        open.textContent = "Open";
+        open.addEventListener("click", () => {
+          promptBox.value = item.question;
+          result.textContent = item.answer;
+          mode = item.mode || "chat";
+          updateActiveTool();
+          image.style.display = "none";
+          note.textContent = "Conversation restored from history.";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        row.append(title, time, open);
+        historyList.appendChild(row);
+      });
+    }
+
+    function updateActiveTool() {
+      document.querySelectorAll(".tool").forEach(tool => {
+        tool.classList.toggle("active", tool.dataset.mode === mode);
+      });
+
+      label.textContent = labels[mode] || labels.chat;
+      promptBox.placeholder = labels[mode] || labels.chat;
+    }
+
+    document.querySelectorAll(".tool").forEach(tool => {
+      tool.addEventListener("click", () => {
         mode = tool.dataset.mode;
-        label.textContent = labels[mode];
-        promptBox.placeholder = labels[mode];
+        updateActiveTool();
         result.textContent = "";
+        image.removeAttribute("src");
+        image.style.display = "none";
+        note.textContent = "Enter a prompt to get started.";
       });
     });
 
@@ -265,44 +421,57 @@
 
       generate.disabled = true;
       clear.disabled = true;
+      voiceInput.disabled = true;
       generate.textContent = "Generating...";
       result.textContent = "Connecting to AI Genius...";
+      image.style.display = "none";
       note.textContent = "Please wait for the response.";
 
       try {
         const response = await fetch(WORKER_URL, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            prompt: text,
+            prompt: instructions[mode] + text,
             mode: mode
           })
         });
 
-        const data = await response.json();
+        let data;
+        try {
+          data = await response.json();
+        } catch (_) {
+          throw new Error("The AI service returned an invalid response.");
+        }
 
-        if (!response.ok) {
-          throw new Error(
-            data.error || "Request failed with status " + response.status
-          );
+        if (!response.ok || data.success === false) {
+          throw new Error(data.error || "Request failed: " + response.status);
         }
 
         const reply =
-          data.reply ??
-          data.response ??
-          data.output ??
-          data.text;
+          data.reply ?? data.response ?? data.output ?? data.text ?? "";
 
-        if (typeof reply !== "string" || !reply.trim()) {
-          throw new Error(
-            data.error || "The worker returned no readable reply."
-          );
+        const imageUrl =
+          data.imageUrl ?? data.image_url ?? data.image ?? "";
+
+        if (typeof imageUrl === "string" &&
+            /^https?:\/\//i.test(imageUrl)) {
+          image.src = imageUrl;
+          image.style.display = "block";
         }
 
-        result.textContent = reply;
-        note.textContent = "Response generated by AI Genius.";
+        if (typeof reply !== "string" || !reply.trim()) {
+          if (!imageUrl) {
+            throw new Error(
+              "No readable reply or image was returned by the AI service."
+            );
+          }
+        }
+
+        result.textContent = typeof reply === "string" ? reply : "";
+        saveHistory(text, result.textContent || "[Image returned]", mode);
+        note.textContent = "AI Genius response received.";
+
       } catch (error) {
         result.textContent =
           "Sorry, we couldn't get a response. Please try again.";
@@ -314,6 +483,7 @@
       } finally {
         generate.disabled = false;
         clear.disabled = false;
+        voiceInput.disabled = false;
         generate.textContent = "Generate";
       }
     });
@@ -321,9 +491,131 @@
     clear.addEventListener("click", () => {
       promptBox.value = "";
       result.textContent = "";
+      image.removeAttribute("src");
+      image.style.display = "none";
       note.textContent = "Enter a prompt to get started.";
       promptBox.focus();
     });
+
+    document.getElementById("copy").addEventListener("click", async () => {
+      const text = result.textContent.trim();
+
+      if (!text) {
+        note.textContent = "There is no response to copy yet.";
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        note.textContent = "Response copied.";
+      } catch (_) {
+        promptBox.value = text;
+        promptBox.focus();
+        promptBox.select();
+        note.textContent = "Select the text and copy it manually.";
+      }
+    });
+
+    document.getElementById("speakReply").addEventListener("click", () => {
+      const text = result.textContent.trim();
+
+      if (!text) {
+        note.textContent = "Generate a response first.";
+        return;
+      }
+
+      if (!("speechSynthesis" in window)) {
+        note.textContent = "Speech playback is not supported by this browser.";
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.onstart = () => {
+        note.textContent = "Reading the response aloud...";
+      };
+      utterance.onend = () => {
+        note.textContent = "Finished reading the response.";
+      };
+      utterance.onerror = () => {
+        note.textContent = "Could not play the voice response.";
+      };
+      window.speechSynthesis.speak(utterance);
+    });
+
+    document.getElementById("stopVoice").addEventListener("click", () => {
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+      if (recognition) {
+        recognition.abort();
+        recognition = null;
+      }
+      voiceInput.textContent = "🎙️ Speak";
+      note.textContent = "Voice stopped.";
+    });
+
+    voiceInput.addEventListener("click", () => {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        note.textContent =
+          "Voice input is not supported here. Try a supported browser or type your prompt.";
+        return;
+      }
+
+      if (recognition) {
+        recognition.abort();
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        voiceInput.textContent = "🎙️ Listening...";
+        note.textContent = "Please speak clearly.";
+      };
+
+      recognition.onresult = event => {
+        const spoken = event.results[0][0].transcript;
+        promptBox.value = promptBox.value.trim()
+          ? promptBox.value.trim() + " " + spoken
+          : spoken;
+        note.textContent = "Speech added to your prompt.";
+      };
+
+      recognition.onerror = event => {
+        note.textContent = "Voice input error: " + event.error;
+      };
+
+      recognition.onend = () => {
+        voiceInput.textContent = "🎙️ Speak";
+        recognition = null;
+      };
+
+      try {
+        recognition.start();
+      } catch (_) {
+        note.textContent = "Could not start voice input. Please try again.";
+      }
+    });
+
+    document.getElementById("clearHistory").addEventListener("click", () => {
+      history = [];
+
+      try {
+        localStorage.removeItem("aiGeniusHistory");
+      } catch (_) {}
+
+      renderHistory();
+      note.textContent = "Conversation history cleared.";
+    });
+
+    loadHistory();
   </script>
 </body>
 </html>
