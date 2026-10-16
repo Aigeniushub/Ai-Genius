@@ -1,490 +1,804 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101020">
-<title>AI Genius</title>
-<style>
-:root{color-scheme:dark;--bg:#101020;--panel:#19192d;--panel2:#24243b;--border:#343451;--text:#f8f7ff;--muted:#aaaac4;--accent:#9065f5}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,Arial,sans-serif}
-button,textarea,select{font:inherit}
-button{cursor:pointer;color:inherit}
-header{height:60px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--border)}
-.logo{font-size:21px;font-weight:850}.logo span{color:#a78bfa}
-.icon-btn,.btn{border:1px solid var(--border);background:var(--panel2);border-radius:10px;padding:8px 12px}
-.header-right{margin-left:auto;display:flex;gap:8px}
-.layout{display:flex;height:calc(100dvh - 60px);min-height:400px}
-.sidebar{width:260px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);padding:13px;overflow-y:auto;display:flex;flex-direction:column;gap:9px}
-.new-chat{width:100%;text-align:left;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--panel2)}
-.side-heading{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:1px;margin:13px 5px 3px}
-.tool,.side-link{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:10px;border:1px solid transparent;background:transparent;border-radius:10px}
-.tool.active{background:var(--panel2);border-color:var(--accent)}
-.tool-icon{width:25px;text-align:center;font-size:18px}
-.side-bottom{margin-top:auto;border-top:1px solid var(--border);padding-top:10px}
-.side-panel{padding:10px 0;border-bottom:1px solid var(--border)}
-.side-panel summary{cursor:pointer;font-weight:700;padding:6px}
-.side-panel label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}
-.side-panel select{width:100%;padding:9px;border-radius:9px;color:var(--text);background:var(--bg);border:1px solid var(--border)}
-.history-item{padding:8px 4px;border-bottom:1px solid var(--border)}
-.history-title{display:block;width:100%;border:0;background:transparent;text-align:left;padding:5px 0;overflow-wrap:anywhere}
-.history-actions{display:flex;gap:5px;flex-wrap:wrap}
-.history-actions button{font-size:12px;padding:5px;background:var(--panel2);border:1px solid var(--border);border-radius:7px}
-.note{font-size:12px;color:var(--muted);margin:7px 0;overflow-wrap:anywhere}
-.main{flex:1;min-width:0;display:flex;flex-direction:column}
-.chat-top{padding:10px 18px;border-bottom:1px solid var(--border);color:var(--muted);font-size:13px}
-#chatMessages{flex:1;min-height:0;overflow-y:auto;padding:24px 16px 30px}
-.welcome{max-width:650px;margin:9vh auto 30px;text-align:center}
-.welcome h1{font-size:clamp(28px,5vw,42px);margin:0 0 10px}
-.gradient{background:linear-gradient(90deg,#b39aff,#55d8e9);background-clip:text;color:transparent}
-.welcome p{color:var(--muted)}
-.message-row{display:flex;margin:0 auto 22px;max-width:780px}
-.message-row.user{justify-content:flex-end}
-.message{max-width:min(90%,680px);padding:12px 16px;border-radius:17px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75}
-.message.user{background:var(--accent);color:white;border-bottom-right-radius:5px}
-.message.assistant{background:var(--panel);border:1px solid var(--border);border-bottom-left-radius:5px}
-.message-label{font-size:11px;font-weight:800;opacity:.75;margin-bottom:4px}
-.message-content{white-space:pre-wrap}
-.composer-area{padding:12px 16px 14px;border-top:1px solid var(--border);background:var(--bg)}
-.composer-inner{max-width:780px;margin:auto}
-#prompt{display:block;width:100%;min-height:54px;max-height:180px;resize:vertical;padding:13px 14px;border-radius:15px;border:1px solid var(--border);background:var(--panel);color:var(--text);line-height:1.5}
-.composer-actions{display:flex;align-items:center;gap:8px;margin-top:8px}
-.composer-actions .spacer{flex:1}
-.primary{background:var(--accent);border-color:var(--accent);color:white;font-weight:750}
-#status{font-size:12px;color:var(--muted);margin-top:7px}
-.overlay{display:none}
-body.light{color-scheme:light;--bg:#f5f5fc;--panel:#fff;--panel2:#ededfa;--border:#deddec;--text:#202039;--muted:#676782}
-[hidden]{display:none!important}
-@media(max-width:760px){
-header{padding:0 11px}
-.sidebar{position:fixed;top:60px;bottom:0;left:0;z-index:30;width:min(290px,85vw);transform:translateX(-105%);transition:transform .2s ease}
-body.sidebar-open .sidebar{transform:translateX(0);box-shadow:12px 0 40px #0005}
-.overlay{position:fixed;inset:60px 0 0;z-index:25;background:#0008}
-body.sidebar-open .overlay{display:block}
-#chatMessages{padding:18px 12px 22px}
-.composer-area{padding:10px}
-.welcome{margin-top:8vh}
-.message{max-width:95%}
-}
-@media(min-width:761px){#menuBtn{display:none}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d18">
+  <title>AI Genius</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #090d18;
+      --panel: #111827;
+      --border: #253047;
+      --text: #f3f6ff;
+      --muted: #9ba8c2;
+      --accent: #7667ff;
+      --accent2: #4d8dff;
+      --danger: #ff667a;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at top, #182345 0%, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    button, input, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .app {
+      max-width: 1000px;
+      height: 100dvh;
+      min-height: 500px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 4px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 45px;
+      height: 45px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 5px 25px #7667ff40;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 6px 10px;
+      border: 1px solid #315c48;
+      background: #10291f;
+      color: #7af0b1;
+      border-radius: 30px;
+      white-space: nowrap;
+    }
+
+    .auth-wrap {
+      width: 100%;
+      max-width: 410px;
+      margin: auto;
+      padding: 25px;
+      border: 1px solid var(--border);
+      background: #111827eF;
+      border-radius: 22px;
+      box-shadow: 0 20px 70px #0004;
+    }
+
+    .auth-wrap h2 {
+      margin: 0 0 8px;
+      font-size: 25px;
+    }
+
+    .description {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 23px;
+    }
+
+    .field {
+      margin: 15px 0;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 8px;
+      color: #d9e0f1;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 13px 14px;
+      color: var(--text);
+      background: #090f1e;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+    }
+
+    .field input:focus,
+    textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .primary, .secondary, .logout {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 650;
+    }
+
+    .primary {
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    .primary:hover {
+      filter: brightness(1.1);
+    }
+
+    .primary:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .full {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .secondary {
+      color: #d9dfff;
+      background: #202b43;
+    }
+
+    .logout {
+      color: #ffb0b9;
+      background: #381b2a;
+      font-size: 12px;
+      padding: 9px 12px;
+    }
+
+    .switch {
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+
+    .switch button {
+      border: 0;
+      color: #a9a0ff;
+      background: none;
+      font-weight: 700;
+    }
+
+    .status {
+      font-size: 13px;
+      line-height: 1.6;
+      margin-top: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    .success {
+      color: #7af0b1;
+    }
+
+    .chat {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .welcome {
+      text-align: center;
+      margin: auto 0;
+      padding: 35px 12px;
+    }
+
+    .welcome .big-logo {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .welcome h2 {
+      font-size: clamp(25px, 5vw, 36px);
+      margin: 0 0 10px;
+    }
+
+    .welcome p {
+      color: var(--muted);
+      max-width: 450px;
+      margin: auto;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .messages {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 24px 2px;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 23px;
+      align-items: flex-start;
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+      flex: 0 0 35px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: #202a42;
+    }
+
+    .user .avatar {
+      background: #43368a;
+    }
+
+    .bubble {
+      max-width: min(80%, 680px);
+      padding: 12px 15px;
+      line-height: 1.75;
+      font-size: 14px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      border: 1px solid var(--border);
+      border-radius: 4px 16px 16px 16px;
+      background: var(--panel);
+    }
+
+    .user .bubble {
+      background: #27274c;
+      border-color: #45417d;
+      border-radius: 16px 4px 16px 16px;
+    }
+
+    .composer {
+      padding: 12px 0 4px;
+      border-top: 1px solid var(--border);
+    }
+
+    .inputbox {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      padding: 9px;
+      background: #111827;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+    }
+
+    textarea {
+      flex: 1;
+      resize: none;
+      max-height: 150px;
+      min-height: 43px;
+      padding: 11px 8px;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .send {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      padding: 0;
+      font-size: 20px;
+      flex: 0 0 44px;
+    }
+
+    .hint {
+      color: #77849e;
+      text-align: center;
+      font-size: 11px;
+      margin: 10px 0 0;
+    }
+
+    @media (max-width: 550px) {
+      .app {
+        padding: 10px;
+      }
+
+      header {
+        padding-bottom: 12px;
+      }
+
+      .auth-wrap {
+        padding: 21px;
+      }
+
+      .bubble {
+        max-width: 88%;
+      }
+
+      .badge {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header>
-<button class="icon-btn" id="menuBtn" aria-label="Open sidebar">☰</button>
-<div class="logo">✨ AI <span>Genius</span></div>
-<div class="header-right">
-<button class="icon-btn" id="themeBtn" aria-label="Toggle theme">☀️</button>
-<button class="btn" id="headerNewChat">＋ New Chat</button>
-</div>
-</header>
+  <div class="app">
 
-<div class="layout">
-<aside class="sidebar" id="sidebar">
-<button class="new-chat" id="newChat">＋ New chat</button>
-<div class="side-heading">AI TOOLS</div>
-<button class="tool active" data-mode="chat"><span class="tool-icon">💬</span>AI Chat</button>
-<button class="tool" data-mode="write"><span class="tool-icon">✍️</span>AI Writer</button>
-<button class="tool" data-mode="image"><span class="tool-icon">🎨</span>Image Studio</button>
-<button class="tool" data-mode="ideas"><span class="tool-icon">💡</span>Idea Generator</button>
-<button class="tool" data-mode="video"><span class="tool-icon">🎬</span>Video Studio</button>
-<button class="tool" data-mode="voice"><span class="tool-icon">🎙️</span>Voice Assistant</button>
+    <header>
+      <div class="brand">
+        <div class="logo">✦</div>
+        <div>
+          <h1>AI Genius</h1>
+          <div class="subtitle">Your intelligent AI assistant</div>
+        </div>
+      </div>
 
-<div class="side-heading">YOUR WORKSPACE</div>
-<button class="side-link" id="historyJump">🕘 Recent conversations</button>
-<div id="historyList"></div>
-<button class="side-link" id="exportHistory">📥 Export conversations</button>
-<button class="side-link" id="clearHistory">🗑️ Clear all history</button>
+      <span class="badge">● AI Assistant</span>
+      <button id="logoutBtn" class="logout hidden">Log out</button>
+    </header>
 
-<div class="side-bottom">
-<details class="side-panel">
-<summary>⚙️ Voice settings</summary>
-<label for="language">Voice language</label>
-<select id="language">
-<option value="en-US">English (US)</option>
-<option value="en-GB">English (UK)</option>
-<option value="ur-PK">Urdu (Pakistan)</option>
-<option value="hi-IN">Hindi</option>
-</select>
-<label for="voiceRate">Speech speed</label>
-<select id="voiceRate">
-<option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.2">Fast</option>
-</select>
-<button class="side-link" id="speakReply">🔊 Read last reply</button>
-<button class="side-link" id="stopVoice">⏹ Stop voice</button>
-</details>
-<details class="side-panel">
-<summary>🧠 Memory</summary>
-<p class="note">Memory stores notes in this browser and sends them with your messages.</p>
-<textarea id="memoryInput" rows="4" placeholder="Add something for AI Genius to remember..." style="width:100%;padding:9px;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--text)"></textarea>
-<button class="btn primary" id="saveMemory" style="margin-top:8px">Save memory</button>
-<button class="btn" id="clearMemory" style="margin-top:8px">Clear memory</button>
-<p class="note" id="memoryStatus"></p>
-</details>
-<details class="side-panel">
-<summary>⭐ Plans</summary>
-<p class="note">Free: PKR 0</p>
-<p class="note">Plan upgrades are not connected yet.</p>
-</details>
-</div>
-</aside>
+    <!-- AUTHENTICATION -->
+    <section id="authView" class="auth-wrap">
+      <h2 id="authTitle">Welcome back</h2>
+      <p id="authDescription" class="description">
+        Log in to continue chatting with AI Genius.
+      </p>
 
-<div class="overlay" id="overlay"></div>
-<main class="main">
-<div class="chat-top" id="modeTitle">AI Chat</div>
-<section id="chatMessages" aria-live="polite">
-<div class="welcome" id="welcome">
-<h1>Hello, <span class="gradient">I'm AI Genius</span></h1>
-<p>Your AI assistant. What would you like to work on today?</p>
-</div>
-</section>
-<div class="composer-area">
-<div class="composer-inner">
-<textarea id="prompt" rows="2" placeholder="Message AI Genius..." aria-label="Message AI Genius"></textarea>
-<div class="composer-actions">
-<button class="btn" id="micBtn" title="Voice input">🎙️</button>
-<button class="btn" id="clearBtn">Clear</button>
-<span class="spacer"></span>
-<button class="btn primary" id="sendBtn">Send ↑</button>
-</div>
-<div id="status" role="status">AI Genius can make mistakes. Check important information.</div>
-</div>
-</div>
-</main>
-</div>
+      <form id="authForm">
+        <div class="field">
+          <label for="email">Email address</label>
+          <input
+            id="email"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            maxlength="254"
+            required
+          >
+        </div>
 
-<script>
-(() => {
-"use strict";
+        <div class="field">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Enter your password"
+            minlength="10"
+            maxlength="128"
+            required
+          >
+        </div>
 
-const WORKER_URL = "https://ai-genius.emaillogin100-n.workers.dev";
-const STORAGE_KEY = "aiGeniusConversationsV2";
-const MEMORY_KEY = "aiGeniusLongTermMemoryV1";
-const $ = id => document.getElementById(id);
+        <button id="authSubmit" class="primary full" type="submit">
+          Log in
+        </button>
+      </form>
 
-const instructions = {
-chat:"",
-write:"Act as a helpful writing assistant. Write clearly and improve the user's text when requested.\n\n",
-image:"Help the user create detailed image-generation prompts. Do not claim an image was generated unless one was actually returned.\n\n",
-ideas:"Act as a creative brainstorming assistant. Give original, practical ideas.\n\n",
-video:"Act as a video-planning assistant. Help with scripts, storyboards, scenes, and video prompts. Do not claim to render a video unless the service actually returns one.\n\n",
-voice:"Act as a conversational voice assistant. Reply naturally and concisely, suitable for being read aloud.\n\n"
-};
+      <div class="switch">
+        <span id="switchText">Don't have an account?</span>
+        <button id="switchAuth" type="button">Sign up</button>
+      </div>
 
-const modeNames = {
-chat:"AI Chat",write:"AI Writer",image:"Image Studio",
-ideas:"Idea Generator",video:"Video Studio",voice:"Voice Assistant"
-};
+      <div id="authStatus" class="status" role="status"></div>
+    </section>
 
-let mode="chat";
-let messages=[];
-let currentId=createId();
-let conversations=loadHistory();
-let busy=false;
-let recognition=null;
-let lastReply="";
+    <!-- CHAT -->
+    <main id="chatView" class="chat hidden">
+      <div id="welcome" class="welcome">
+        <div class="big-logo">✦</div>
+        <h2>How can I help you?</h2>
+        <p>
+          Ask a question, explore an idea, learn something new,
+          or get help with your next project.
+        </p>
+      </div>
 
-function createId(){
-return Date.now().toString(36)+Math.random().toString(36).slice(2,8);
-}
-function loadHistory(){
-try{
-const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
-return Array.isArray(v)?v:[];
-}catch{return [];}
-}
-function loadMemory(){
-try{
-const v=JSON.parse(localStorage.getItem(MEMORY_KEY)||"[]");
-return Array.isArray(v)?v:[];
-}catch{return [];}
-}
-function getMemoryContext(){
-return loadMemory().slice(-30).map(x=>x.text).join("\n");
-}
-function saveMemoryEntry(text){
-const clean=String(text||"").trim();
-if(!clean)return;
-let memory=loadMemory();
-memory.push({text:clean,time:Date.now()});
-memory=memory.slice(-100);
-try{localStorage.setItem(MEMORY_KEY,JSON.stringify(memory));}
-catch{setStatus("Memory could not be saved in browser storage.");}
-renderMemory();
-}
-function persistHistory(){
-try{localStorage.setItem(STORAGE_KEY,JSON.stringify(conversations.slice(0,50)));}
-catch{setStatus("Browser storage is unavailable. Your chat may not be saved.");}
-}
-function setStatus(text){$("status").textContent=text;}
-function closeSidebar(){document.body.classList.remove("sidebar-open");}
-function toggleSidebar(){document.body.classList.toggle("sidebar-open");}
+      <div
+        id="messages"
+        class="messages hidden"
+        aria-live="polite"
+      ></div>
 
-function updateMode(nextMode){
-if(!Object.prototype.hasOwnProperty.call(instructions,nextMode))return;
-mode=nextMode;
-document.querySelectorAll(".tool").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
-$("modeTitle").textContent=modeNames[mode];
-$("prompt").placeholder="Message "+modeNames[mode]+"...";
-closeSidebar();
-}
+      <div class="composer">
+        <form id="chatForm" class="inputbox">
+          <textarea
+            id="prompt"
+            rows="1"
+            maxlength="30000"
+            placeholder="Message AI Genius..."
+            aria-label="Message AI Genius"
+            required
+          ></textarea>
 
-function showWelcome(){
-$("chatMessages").replaceChildren();
-const w=document.createElement("div");
-w.className="welcome";w.id="welcome";
-const h=document.createElement("h1");
-h.append("Hello, ");
-const s=document.createElement("span");
-s.className="gradient";s.textContent="I'm AI Genius";h.append(s);
-const p=document.createElement("p");
-p.textContent="Your AI assistant. What would you like to work on today?";
-w.append(h,p);$("chatMessages").append(w);
-}
+          <button
+            id="sendBtn"
+            class="primary send"
+            type="submit"
+            aria-label="Send message"
+          >↑</button>
+        </form>
 
-function addMessage(role,content,save=true){
-const text=String(content??"");
-const welcome=$("welcome");
-if(welcome)welcome.remove();
+        <p class="hint">
+          AI Genius can make mistakes. Verify important information.
+        </p>
 
-const row=document.createElement("div");
-row.className="message-row "+role;
-const bubble=document.createElement("div");
-bubble.className="message "+role;
-const label=document.createElement("div");
-label.className="message-label";
-label.textContent=role==="user"?"You":"AI Genius";
-const body=document.createElement("div");
-body.className="message-content";
-body.textContent=text;
-bubble.append(label,body);row.append(bubble);
-$("chatMessages").append(row);
-$("chatMessages").scrollTop=$("chatMessages").scrollHeight;
+        <div id="chatStatus" class="status" role="status"></div>
+      </div>
+    </main>
+  </div>
 
-messages.push({role,content:text});
-if(messages.length>100)messages=messages.slice(-100);
-if(save)saveCurrentConversation();
-}
+  <script>
+    "use strict";
 
-function saveCurrentConversation(){
-let conversation=conversations.find(c=>c.id===currentId);
-if(!conversation){
-conversation={id:currentId,title:"New conversation",messages:[],updatedAt:Date.now(),mode};
-conversations.unshift(conversation);
-}
-conversation.messages=messages.slice(-100);
-conversation.updatedAt=Date.now();
-conversation.mode=mode;
-const firstUser=messages.find(m=>m.role==="user");
-if(firstUser&&(!conversation.title||conversation.title==="New conversation")){
-conversation.title=firstUser.content.slice(0,48)||"New conversation";
-}
-conversations.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
-conversations=conversations.slice(0,50);
-persistHistory();renderHistory();
-}
+    /*
+      IMPORTANT:
+      Replace this URL with your actual deployed Cloudflare Worker URL.
+      Do not include /auth/login or /chat at the end.
+    */
+    const API_BASE = "https://YOUR-WORKER.YOUR-SUBDOMAIN.workers.dev";
 
-function renderHistory(){
-const list=$("historyList");list.replaceChildren();
-conversations.forEach(c=>{
-const item=document.createElement("div");item.className="history-item";
-const title=document.createElement("button");title.className="history-title";
-title.textContent=c.title||"New conversation";
-title.onclick=()=>openConversation(c.id);
-const actions=document.createElement("div");actions.className="history-actions";
-const rename=document.createElement("button");rename.textContent="Rename";
-rename.onclick=()=>{
-const name=prompt("Conversation name:",c.title||"New conversation");
-if(name&&name.trim()){
-c.title=name.trim().slice(0,80);persistHistory();renderHistory();
-}
-};
-const exportBtn=document.createElement("button");exportBtn.textContent="Export";
-exportBtn.onclick=()=>downloadFile((c.title||"conversation")+".json",JSON.stringify(c,null,2),"application/json");
-const del=document.createElement("button");del.textContent="Delete";
-del.onclick=()=>{
-if(!confirm("Delete this conversation?"))return;
-conversations=conversations.filter(x=>x.id!==c.id);
-persistHistory();
-if(currentId===c.id)newChat();
-else renderHistory();
-};
-actions.append(rename,exportBtn,del);item.append(title,actions);list.append(item);
-});
-}
+    const $ = id => document.getElementById(id);
 
-function openConversation(id){
-const c=conversations.find(x=>x.id===id);
-if(!c)return;
-currentId=c.id;messages=[];
-$("chatMessages").replaceChildren();
-(c.messages||[]).forEach(m=>addMessage(m.role,m.content,false));
-if(!messages.length)showWelcome();
-updateMode(instructions[c.mode]?c.mode:"chat");
-closeSidebar();
-}
-function newChat(){
-currentId=createId();messages=[];lastReply="";
-showWelcome();updateMode(mode);setStatus("New conversation");
-closeSidebar();
-}
-function downloadFile(name,data,type){
-const blob=new Blob([data],{type});
-const url=URL.createObjectURL(blob);
-const a=document.createElement("a");
-a.href=url;a.download=name.replace(/[\\/:*?"<>|]/g,"_");
-document.body.append(a);a.click();a.remove();
-setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
+    let authMode = "login";
+    let token = sessionStorage.getItem("ai_genius_token") || "";
+    let currentUser = null;
+    let busy = false;
 
-function renderMemory(){
-const memory=loadMemory();
-$("memoryInput").value=memory.map(x=>x.text).join("\n");
-$("memoryStatus").textContent=memory.length+" saved memory note(s).";
-}
-function saveMemoryFromInput(){
-const lines=$("memoryInput").value.split("\n").map(s=>s.trim()).filter(Boolean);
-try{
-localStorage.setItem(MEMORY_KEY,JSON.stringify(lines.slice(-100).map(text=>({text,time:Date.now()}))));
-$("memoryStatus").textContent=lines.length+" memory note(s) saved.";
-}catch{
-$("memoryStatus").textContent="Could not save memory.";
-}
-}
-function clearMemory(){
-if(!confirm("Clear all saved memory notes?"))return;
-localStorage.removeItem(MEMORY_KEY);renderMemory();
-}
+    function setStatus(element, message, type = "error") {
+      element.textContent = message;
+      element.className = "status " + type;
+    }
 
-async function sendMessage(){
-if(busy)return;
-const text=$("prompt").value.trim();
-if(!text){$("prompt").focus();return;}
+    function clearStatus(element) {
+      element.textContent = "";
+      element.className = "status";
+    }
 
-const submittedMode=mode;
-$("prompt").value="";
-addMessage("user",text);
+    async function api(path, options = {}) {
+      const headers = {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      };
 
-const conversationHistory=messages.slice(0,-1).slice(-20).map(m=>({
-role:m.role,content:m.content
-}));
-const memoryContext=getMemoryContext();
-const historyText=conversationHistory.map(m=>
-(m.role==="user"?"User: ":"Assistant: ")+m.content
-).join("\n\n");
+      if (token) {
+        headers.Authorization = "Bearer " + token;
+      }
 
-let contextualPrompt=(instructions[submittedMode]||"");
-if(memoryContext){
-contextualPrompt+="\nSaved user memory (use when relevant):\n"+memoryContext+"\n\n";
-}
-if(historyText){
-contextualPrompt+="Previous conversation context:\n"+historyText+"\n\n";
-}
-contextualPrompt+="Current user message:\n"+text;
+      let response;
 
-busy=true;
-$("sendBtn").disabled=true;
-$("sendBtn").textContent="Thinking...";
-setStatus("AI Genius is thinking...");
+      try {
+        response = await fetch(API_BASE.replace(/\/+$/, "") + path, {
+          ...options,
+          headers
+        });
+      } catch {
+        throw new Error(
+          "Cannot connect to AI Genius server. Check your Worker URL and internet connection."
+        );
+      }
 
-try{
-const response=await fetch(WORKER_URL,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-prompt:contextualPrompt,
-mode:submittedMode,
-messages:[...conversationHistory,{role:"user",content:text}],
-history:conversationHistory,
-memory:memoryContext
-})
-});
-if(!response.ok)throw new Error("Server returned HTTP "+response.status);
-const data=await response.json();
-const reply=data.reply??data.response??data.output??data.text;
-if(typeof reply!=="string"&&!Array.isArray(reply)&&typeof reply!=="object"){
-throw new Error("The server returned no reply.");
-}
-const replyText=typeof reply==="string"?reply:JSON.stringify(reply);
-lastReply=replyText;
-addMessage("assistant",replyText);
-setStatus("Ready");
-if(submittedMode==="voice")speakText(replyText);
-}catch(error){
-addMessage("assistant","Sorry, something went wrong: "+error.message);
-setStatus("Request failed. Check your connection and Worker configuration.");
-}finally{
-busy=false;
-$("sendBtn").disabled=false;
-$("sendBtn").textContent="Send ↑";
-$("prompt").focus();
-}
-}
+      const data = await response.json().catch(() => ({}));
 
-function speakText(text){
-if(!("speechSynthesis" in window)){setStatus("Speech output is not supported in this browser.");return;}
-speechSynthesis.cancel();
-const utterance=new SpeechSynthesisUtterance(text);
-utterance.lang=$("language").value;
-utterance.rate=Number($("voiceRate").value)||1;
-speechSynthesis.speak(utterance);
-}
-function startRecognition(){
-const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-if(!SpeechRecognition){setStatus("Voice input is not supported in this browser.");return;}
-if(recognition){recognition.stop();recognition=null;return;}
-recognition=new SpeechRecognition();
-recognition.lang=$("language").value;
-recognition.interimResults=true;
-recognition.continuous=false;
-recognition.onresult=event=>{
-let transcript="";
-for(let i=event.resultIndex;i<event.results.length;i++)transcript+=event.results[i][0].transcript;
-$("prompt").value=transcript;
-};
-recognition.onerror=event=>setStatus("Voice input error: "+event.error);
-recognition.onend=()=>{recognition=null;setStatus("Voice input finished.");};
-setStatus("Listening...");
-recognition.start();
-}
+      if (!response.ok || data.success === false) {
+        if (response.status === 401 && path !== "/auth/login") {
+          token = "";
+          sessionStorage.removeItem("ai_genius_token");
+        }
 
-$("sendBtn").addEventListener("click",sendMessage);
-$("prompt").addEventListener("keydown",event=>{
-if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();sendMessage();}
-});
-$("clearBtn").addEventListener("click",()=>{$("prompt").value="";$("prompt").focus();});
-$("newChat").addEventListener("click",newChat);
-$("headerNewChat").addEventListener("click",newChat);
-$("menuBtn").addEventListener("click",toggleSidebar);
-$("overlay").addEventListener("click",closeSidebar);
-document.querySelectorAll(".tool").forEach(b=>b.addEventListener("click",()=>updateMode(b.dataset.mode)));
-$("themeBtn").addEventListener("click",()=>{
-document.body.classList.toggle("light");
-localStorage.setItem("aiGeniusTheme",document.body.classList.contains("light")?"light":"dark");
-});
-$("historyJump").addEventListener("click",()=>{$("historyList").scrollIntoView({behavior:"smooth"});closeSidebar();});
-$("exportHistory").addEventListener("click",()=>downloadFile("ai-genius-conversations.json",JSON.stringify(conversations,null,2),"application/json"));
-$("clearHistory").addEventListener("click",()=>{
-if(!confirm("Clear all saved conversations?"))return;
-conversations=[];persistHistory();renderHistory();newChat();
-});
-$("micBtn").addEventListener("click",startRecognition);
-$("speakReply").addEventListener("click",()=>lastReply?speakText(lastReply):setStatus("There is no reply to read yet."));
-$("stopVoice").addEventListener("click",()=>{
-if("speechSynthesis" in window)speechSynthesis.cancel();
-if(recognition){recognition.stop();recognition=null;}
-setStatus("Voice stopped.");
-});
-$("saveMemory").addEventListener("click",saveMemoryFromInput);
-$("clearMemory").addEventListener("click",clearMemory);
+        throw new Error(
+          data.error || ("Server returned HTTP " + response.status)
+        );
+      }
 
-try{
-if(localStorage.getItem("aiGeniusTheme")==="light")document.body.classList.add("light");
-}catch{}
-renderHistory();
-renderMemory();
-})();
-</script>
+      return data;
+    }
+
+    function showAuth() {
+      $("authView").classList.remove("hidden");
+      $("chatView").classList.add("hidden");
+      $("logoutBtn").classList.add("hidden");
+    }
+
+    function showChat() {
+      $("authView").classList.add("hidden");
+      $("chatView").classList.remove("hidden");
+      $("logoutBtn").classList.remove("hidden");
+    }
+
+    function setAuthMode(mode) {
+      authMode = mode;
+
+      const signup = mode === "signup";
+
+      $("authTitle").textContent =
+        signup ? "Create your account" : "Welcome back";
+
+      $("authDescription").textContent =
+        signup
+          ? "Create an account to start using AI Genius."
+          : "Log in to continue chatting with AI Genius.";
+
+      $("authSubmit").textContent =
+        signup ? "Create account" : "Log in";
+
+      $("switchText").textContent =
+        signup ? "Already have an account?" : "Don't have an account?";
+
+      $("switchAuth").textContent =
+        signup ? "Log in" : "Sign up";
+
+      $("password").autocomplete =
+        signup ? "new-password" : "current-password";
+
+      clearStatus($("authStatus"));
+    }
+
+    $("switchAuth").addEventListener("click", () => {
+      setAuthMode(authMode === "login" ? "signup" : "login");
+    });
+
+    $("authForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (busy) return;
+
+      const email = $("email").value.trim();
+      const password = $("password").value;
+      const button = $("authSubmit");
+
+      if (authMode === "signup" && password.length < 10) {
+        setStatus(
+          $("authStatus"),
+          "Password must contain at least 10 characters."
+        );
+        return;
+      }
+
+      busy = true;
+      button.disabled = true;
+      button.textContent = "Please wait...";
+      clearStatus($("authStatus"));
+
+      try {
+        const endpoint =
+          authMode === "signup" ? "/auth/signup" : "/auth/login";
+
+        const data = await api(endpoint, {
+          method: "POST",
+          body: JSON.stringify({ email, password })
+        });
+
+        if (!data.token) {
+          throw new Error("Server did not return a login token.");
+        }
+
+        token = data.token;
+        sessionStorage.setItem("ai_genius_token", token);
+        currentUser = data.user || null;
+
+        $("password").value = "";
+        showChat();
+        setStatus(
+          $("chatStatus"),
+          "Successfully logged in.",
+          "success"
+        );
+      } catch (error) {
+        setStatus($("authStatus"), error.message);
+      } finally {
+        busy = false;
+        button.disabled = false;
+        button.textContent =
+          authMode === "signup" ? "Create account" : "Log in";
+      }
+    });
+
+    function addMessage(role, text) {
+      $("welcome").classList.add("hidden");
+      $("messages").classList.remove("hidden");
+
+      const row = document.createElement("div");
+      row.className = "message " + role;
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = role === "user" ? "👤" : "✦";
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+
+      // Use textContent to prevent HTML/script injection.
+      bubble.textContent = text;
+
+      row.append(avatar, bubble);
+      $("messages").appendChild(row);
+
+      $("messages").scrollTop = $("messages").scrollHeight;
+
+      return bubble;
+    }
+
+    async function sendMessage(message) {
+      const data = await api("/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          prompt: message
+        })
+      });
+
+      if (typeof data.reply !== "string" || !data.reply.trim()) {
+        throw new Error("The server returned an empty AI response.");
+      }
+
+      return data.reply;
+    }
+
+    $("chatForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (busy) return;
+
+      const message = $("prompt").value.trim();
+
+      if (!message) return;
+
+      if (message.length > 30000) {
+        setStatus($("chatStatus"), "Message is too long.");
+        return;
+      }
+
+      busy = true;
+      $("sendBtn").disabled = true;
+      $("prompt").disabled = true;
+      clearStatus($("chatStatus"));
+
+      $("prompt").value = "";
+      $("prompt").style.height = "auto";
+
+      addMessage("user", message);
+      const replyBubble = addMessage("assistant", "Thinking...");
+
+      try {
+        const reply = await sendMessage(message);
+        replyBubble.textContent = reply;
+      } catch (error) {
+        replyBubble.textContent = "Sorry, something went wrong.";
+        setStatus($("chatStatus"), error.message);
+
+        if (!token) {
+          showAuth();
+          setStatus(
+            $("authStatus"),
+            "Your session expired. Please log in again."
+          );
+        }
+      } finally {
+        busy = false;
+        $("sendBtn").disabled = false;
+        $("prompt").disabled = false;
+        $("prompt").focus();
+        $("messages").scrollTop = $("messages").scrollHeight;
+      }
+    });
+
+    $("prompt").addEventListener("input", () => {
+      const input = $("prompt");
+      input.style.height = "auto";
+      input.style.height = Math.min(input.scrollHeight, 150) + "px";
+    });
+
+    $("prompt").addEventListener("keydown", event => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        $("chatForm").requestSubmit();
+      }
+    });
+
+    $("logoutBtn").addEventListener("click", async () => {
+      const oldToken = token;
+
+      token = "";
+      sessionStorage.removeItem("ai_genius_token");
+      currentUser = null;
+
+      try {
+        if (oldToken) {
+          await api("/auth/logout", { method: "POST" });
+        }
+      } catch (error) {
+        console.warn("Logout request failed:", error.message);
+      }
+
+      $("messages").replaceChildren();
+      $("messages").classList.add("hidden");
+      $("welcome").classList.remove("hidden");
+
+      showAuth();
+      setAuthMode("login");
+      setStatus($("authStatus"), "You have logged out.", "success");
+    });
+
+    async function initialize() {
+      if (!API_BASE.startsWith("https://") ||
+          API_BASE.includes("YOUR-WORKER")) {
+        setStatus(
+          $("authStatus"),
+          "Setup required: replace API_BASE with your deployed Cloudflare Worker URL."
+        );
+        showAuth();
+        return;
+      }
+
+      if (!token) {
+        showAuth();
+        return;
+      }
+
+      try {
+        const data = await api("/auth/me", { method: "POST" });
+        currentUser = data.user || null;
+        showChat();
+      } catch (error) {
+        token = "";
+        sessionStorage.removeItem("ai_genius_token");
+        showAuth();
+
+        setStatus(
+          $("authStatus"),
+          "Please log in again to continue.",
+          "error"
+        );
+      }
+    }
+
+    initialize();
+  </script>
 </body>
 </html>
