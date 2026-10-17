@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#090d18">
   <title>AI Genius</title>
-
   <style>
     * {
       box-sizing: border-box;
     }
-
     :root {
       --bg: #090d18;
       --panel: #111827;
@@ -21,7 +19,6 @@
       --accent2: #4d8dff;
       --danger: #ff667a;
     }
-
     body {
       margin: 0;
       min-height: 100vh;
@@ -31,19 +28,15 @@
       color: var(--text);
       font-family: system-ui, -apple-system, sans-serif;
     }
-
     button, input, textarea {
       font: inherit;
     }
-
     button {
       cursor: pointer;
     }
-
     .hidden {
       display: none !important;
     }
-
     .app {
       max-width: 1000px;
       height: 100dvh;
@@ -53,7 +46,6 @@
       flex-direction: column;
       padding: 16px;
     }
-
     header {
       display: flex;
       align-items: center;
@@ -62,13 +54,11 @@
       padding: 12px 4px 18px;
       border-bottom: 1px solid var(--border);
     }
-
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-
     .logo {
       width: 45px;
       height: 45px;
@@ -79,18 +69,15 @@
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       box-shadow: 0 5px 25px #7667ff40;
     }
-
     h1 {
       font-size: 20px;
       margin: 0;
     }
-
     .subtitle {
       color: var(--muted);
       font-size: 12px;
       margin-top: 4px;
     }
-
     .badge {
       font-size: 11px;
       padding: 6px 10px;
@@ -100,7 +87,6 @@
       border-radius: 30px;
       white-space: nowrap;
     }
-
     .auth-wrap {
       width: 100%;
       max-width: 410px;
@@ -111,30 +97,25 @@
       border-radius: 22px;
       box-shadow: 0 20px 70px #0004;
     }
-
     .auth-wrap h2 {
       margin: 0 0 8px;
       font-size: 25px;
     }
-
     .description {
       color: var(--muted);
       font-size: 14px;
       line-height: 1.6;
       margin-bottom: 23px;
     }
-
     .field {
       margin: 15px 0;
     }
-
     .field label {
       display: block;
       font-size: 13px;
       margin-bottom: 8px;
       color: #d9e0f1;
     }
-
     .field input {
       width: 100%;
       padding: 13px 14px;
@@ -144,102 +125,84 @@
       border-radius: 12px;
       outline: none;
     }
-
     .field input:focus,
     textarea:focus {
       border-color: var(--accent);
     }
-
     .primary, .secondary, .logout {
       border: 0;
       border-radius: 12px;
       padding: 12px 16px;
       font-weight: 650;
     }
-
     .primary {
       color: white;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
     }
-
     .primary:hover {
       filter: brightness(1.1);
     }
-
     .primary:disabled {
       opacity: .55;
       cursor: not-allowed;
     }
-
     .full {
       width: 100%;
       margin-top: 8px;
     }
-
     .secondary {
       color: #d9dfff;
       background: #202b43;
     }
-
     .logout {
       color: #ffb0b9;
       background: #381b2a;
       font-size: 12px;
       padding: 9px 12px;
     }
-
     .switch {
       color: var(--muted);
       text-align: center;
       font-size: 13px;
       margin-top: 20px;
     }
-
     .switch button {
       border: 0;
       color: #a9a0ff;
       background: none;
       font-weight: 700;
     }
-
     .status {
       font-size: 13px;
       line-height: 1.6;
       margin-top: 14px;
       overflow-wrap: anywhere;
     }
-
     .error {
       color: var(--danger);
     }
-
     .success {
       color: #7af0b1;
     }
-
     .chat {
       display: flex;
       flex-direction: column;
       flex: 1;
       min-height: 0;
     }
-
     .welcome {
       text-align: center;
       margin: auto 0;
       padding: 35px 12px;
     }
-
     .welcome .big-logo {
       font-size: 48px;
       margin-bottom: 12px;
     }
-
     .welcome h2 {
       font-size: clamp(25px, 5vw, 36px);
       margin: 0 0 10px;
     }
-
     .welcome p {
       color: var(--muted);
       max-width: 450px;
@@ -247,7 +210,6 @@
       line-height: 1.7;
       font-size: 14px;
     }
-
     .messages {
       flex: 1;
       min-height: 0;
@@ -255,18 +217,15 @@
       padding: 24px 2px;
       scroll-behavior: smooth;
     }
-
     .message {
       display: flex;
       gap: 10px;
       margin-bottom: 23px;
       align-items: flex-start;
     }
-
     .message.user {
       flex-direction: row-reverse;
     }
-
     .avatar {
       width: 35px;
       height: 35px;
@@ -276,11 +235,9 @@
       place-items: center;
       background: #202a42;
     }
-
     .user .avatar {
       background: #43368a;
     }
-
     .bubble {
       max-width: min(80%, 680px);
       padding: 12px 15px;
@@ -292,18 +249,15 @@
       border-radius: 4px 16px 16px 16px;
       background: var(--panel);
     }
-
     .user .bubble {
       background: #27274c;
       border-color: #45417d;
       border-radius: 16px 4px 16px 16px;
     }
-
     .composer {
       padding: 12px 0 4px;
       border-top: 1px solid var(--border);
     }
-
     .inputbox {
       display: flex;
       gap: 10px;
@@ -313,7 +267,6 @@
       border: 1px solid var(--border);
       border-radius: 17px;
     }
-
     textarea {
       flex: 1;
       resize: none;
@@ -326,7 +279,6 @@
       border-radius: 8px;
       outline: none;
     }
-
     .send {
       width: 44px;
       height: 44px;
@@ -335,41 +287,33 @@
       font-size: 20px;
       flex: 0 0 44px;
     }
-
     .hint {
       color: #77849e;
       text-align: center;
       font-size: 11px;
       margin: 10px 0 0;
     }
-
     @media (max-width: 550px) {
       .app {
         padding: 10px;
       }
-
       header {
         padding-bottom: 12px;
       }
-
       .auth-wrap {
         padding: 21px;
       }
-
       .bubble {
         max-width: 88%;
       }
-
       .badge {
         display: none;
       }
     }
   </style>
 </head>
-
 <body>
   <div class="app">
-
     <header>
       <div class="brand">
         <div class="logo">✦</div>
@@ -378,7 +322,6 @@
           <div class="subtitle">Your intelligent AI assistant</div>
         </div>
       </div>
-
       <span class="badge">● AI Assistant</span>
       <button id="logoutBtn" class="logout hidden">Log out</button>
     </header>
@@ -478,8 +421,8 @@
     "use strict";
 
     /*
-      IMPORTANT:
-      Replace this URL with your actual deployed Cloudflare Worker URL.
+      API URL UPDATED:
+      Use the actual deployed Cloudflare Worker URL.
       Do not include /auth/login or /chat at the end.
     */
     const API_BASE = "https://ai-genius.emaillogin100-n.workers.dev";
@@ -514,10 +457,13 @@
       let response;
 
       try {
-        response = await fetch(API_BASE.replace(/\/+$/, "") + path, {
-          ...options,
-          headers
-        });
+        response = await fetch(
+          API_BASE.replace(/\/+$/, "") + path,
+          {
+            ...options,
+            headers
+          }
+        );
       } catch {
         throw new Error(
           "Cannot connect to AI Genius server. Check your Worker URL and internet connection."
@@ -604,6 +550,7 @@
       busy = true;
       button.disabled = true;
       button.textContent = "Please wait...";
+
       clearStatus($("authStatus"));
 
       try {
@@ -620,11 +567,15 @@
         }
 
         token = data.token;
+
         sessionStorage.setItem("ai_genius_token", token);
+
         currentUser = data.user || null;
 
         $("password").value = "";
+
         showChat();
+
         setStatus(
           $("chatStatus"),
           "Successfully logged in.",
@@ -635,6 +586,7 @@
       } finally {
         busy = false;
         button.disabled = false;
+
         button.textContent =
           authMode === "signup" ? "Create account" : "Log in";
       }
@@ -658,8 +610,8 @@
       bubble.textContent = text;
 
       row.append(avatar, bubble);
-      $("messages").appendChild(row);
 
+      $("messages").appendChild(row);
       $("messages").scrollTop = $("messages").scrollHeight;
 
       return bubble;
@@ -695,14 +647,17 @@
       }
 
       busy = true;
+
       $("sendBtn").disabled = true;
       $("prompt").disabled = true;
+
       clearStatus($("chatStatus"));
 
       $("prompt").value = "";
       $("prompt").style.height = "auto";
 
       addMessage("user", message);
+
       const replyBubble = addMessage("assistant", "Thinking...");
 
       try {
@@ -710,10 +665,12 @@
         replyBubble.textContent = reply;
       } catch (error) {
         replyBubble.textContent = "Sorry, something went wrong.";
+
         setStatus($("chatStatus"), error.message);
 
         if (!token) {
           showAuth();
+
           setStatus(
             $("authStatus"),
             "Your session expired. Please log in again."
@@ -721,17 +678,23 @@
         }
       } finally {
         busy = false;
+
         $("sendBtn").disabled = false;
         $("prompt").disabled = false;
+
         $("prompt").focus();
+
         $("messages").scrollTop = $("messages").scrollHeight;
       }
     });
 
     $("prompt").addEventListener("input", () => {
       const input = $("prompt");
+
       input.style.height = "auto";
-      input.style.height = Math.min(input.scrollHeight, 150) + "px";
+
+      input.style.height =
+        Math.min(input.scrollHeight, 150) + "px";
     });
 
     $("prompt").addEventListener("keydown", event => {
@@ -745,7 +708,9 @@
       const oldToken = token;
 
       token = "";
+
       sessionStorage.removeItem("ai_genius_token");
+
       currentUser = null;
 
       try {
@@ -761,18 +726,28 @@
       $("welcome").classList.remove("hidden");
 
       showAuth();
+
       setAuthMode("login");
-      setStatus($("authStatus"), "You have logged out.", "success");
+
+      setStatus(
+        $("authStatus"),
+        "You have logged out.",
+        "success"
+      );
     });
 
     async function initialize() {
-      if (!API_BASE.startsWith("https://") ||
-          API_BASE.includes("YOUR-WORKER")) {
+      if (
+        !API_BASE.startsWith("https://") ||
+        API_BASE.includes("YOUR-WORKER")
+      ) {
         setStatus(
           $("authStatus"),
           "Setup required: replace API_BASE with your deployed Cloudflare Worker URL."
         );
+
         showAuth();
+
         return;
       }
 
@@ -783,11 +758,15 @@
 
       try {
         const data = await api("/auth/me", { method: "POST" });
+
         currentUser = data.user || null;
+
         showChat();
       } catch (error) {
         token = "";
+
         sessionStorage.removeItem("ai_genius_token");
+
         showAuth();
 
         setStatus(
