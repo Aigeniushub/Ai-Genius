@@ -982,7 +982,7 @@ async function initialize() {
   }
 
   try {
-    const data = await api("/auth/me", { method: "POST" });
+    const data = await api("/auth/me", { method: "GET" });
     saveUser(data.user || currentUser);
     showChat();
   } catch (error) {
