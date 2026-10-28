@@ -1,104 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="google-site-verification" content="O_wLORnTC64ZaDZFE7whKvyd54h8ZdY_LFzXUse8iH8">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090d18">
+<meta name="google-site-verification" content="O_wLORnTC64ZaDZFE7whKvyd54h8ZdY_LFzXUse8iH8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111318">
 <meta name="description" content="AI Genius is your intelligent AI workspace for writing, ideas, business assistance and creative projects.">
 <title>AI Genius — AI Workspace</title>
+
 <style>
 *{box-sizing:border-box}
-:root{--bg:#090d18;--panel:#111827;--panel2:#151f32;--border:#253047;--text:#f3f6ff;--muted:#9ba8c2;--accent:#7667ff;--accent2:#4d8dff;--danger:#ff667a;--success:#7af0b1}
-body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#182345 0%,transparent 55%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif}
+:root{
+ --bg:#111318;--panel:#191b22;--panel2:#22252e;
+ --border:#30333d;--text:#f5f5f5;--muted:#a4a7b0;
+ --accent:#8b7cff;--accent2:#587cff;--danger:#ff7185;
+ --success:#73e5ad;--user:#29253f;--composer:#191b22;
+ --hover:#252833;--shadow:#0003
+}
+body.light{
+ --bg:#e9ebf0;--panel:#f5f6f8;--panel2:#e1e4eb;
+ --border:#c7ccd7;--text:#ffffff;--muted:#aeb4c0;
+ --accent:#7868ef;--accent2:#4779ec;--danger:#ff7185;
+ --success:#73e5ad;--user:#29253f;--composer:#20232b;
+ --hover:#343843;--shadow:#0002
+}
+*{scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+ font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 button,input,textarea{font:inherit}
 button{cursor:pointer}
 button:disabled{opacity:.55;cursor:not-allowed}
 .hidden{display:none!important}
-.app{height:100dvh;min-height:500px;display:flex;flex-direction:column;overflow:hidden}
-header{min-height:76px;display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--border);background:#090d18ef;position:relative;z-index:5}
-.icon-btn{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border:1px solid var(--border);border-radius:12px;background:var(--panel);color:var(--text);font-size:22px}
-.brand{display:flex;align-items:center;gap:12px;min-width:0}
-.logo{width:43px;height:43px;flex:0 0 43px;border-radius:14px;display:grid;place-items:center;font-size:25px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 5px 25px #7667ff40}
-h1{font-size:19px;margin:0}
-.subtitle{color:var(--muted);font-size:12px;margin-top:4px}
-.badge{margin-left:auto;font-size:11px;padding:6px 10px;border:1px solid #315c48;background:#10291f;color:var(--success);border-radius:30px;white-space:nowrap}
+button:focus-visible,input:focus-visible,textarea:focus-visible{
+ outline:2px solid var(--accent);outline-offset:2px
+}
+.app{height:100dvh;min-height:480px;display:flex;flex-direction:column;overflow:hidden}
+header{height:68px;min-height:68px;display:flex;align-items:center;gap:12px;
+ padding:10px 16px;border-bottom:1px solid var(--border);
+ background:var(--bg);position:relative;z-index:20}
+.icon-btn{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;
+ border:1px solid var(--border);border-radius:12px;background:var(--panel);
+ color:var(--text);font-size:20px}
+.icon-btn:hover{background:var(--hover)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:39px;height:39px;flex:0 0 39px;border-radius:13px;
+ display:grid;place-items:center;font-size:24px;
+ background:linear-gradient(135deg,var(--accent),var(--accent2))}
+h1{font-size:18px;margin:0;letter-spacing:-.4px}
+.subtitle{color:var(--muted);font-size:11px;margin-top:3px}
+.badge{margin-left:auto;font-size:11px;padding:6px 10px;
+ border:1px solid var(--border);background:var(--panel);
+ color:var(--text);border-radius:30px;white-space:nowrap}
 .workspace{display:flex;flex:1;min-height:0;position:relative}
-.sidebar{width:260px;flex:0 0 260px;display:flex;flex-direction:column;min-height:0;padding:15px 12px;background:#0d1423;border-right:1px solid var(--border);overflow-y:auto;transition:transform .2s ease}
-.sidebar-title{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:1px;padding:12px 10px 8px;text-transform:uppercase}
-.side-btn{width:100%;display:flex;align-items:center;gap:11px;padding:12px;margin-bottom:5px;color:#d9e0f1;background:transparent;border:1px solid transparent;border-radius:11px;text-align:left;font-size:13px}
-.side-btn:hover,.side-btn.active{background:#1a2440;border-color:#303d60}
+.sidebar{width:260px;flex:0 0 260px;display:flex;flex-direction:column;
+ min-height:0;padding:14px 12px;background:var(--bg);
+ border-right:1px solid var(--border);overflow-y:auto;transition:transform .2s}
+.sidebar-title{color:var(--muted);font-size:10px;font-weight:750;
+ letter-spacing:1.2px;padding:14px 10px 8px;text-transform:uppercase}
+.side-btn{width:100%;display:flex;align-items:center;gap:11px;padding:11px;
+ margin-bottom:4px;color:var(--text);background:transparent;
+ border:1px solid transparent;border-radius:11px;text-align:left;font-size:13px}
+.side-btn:hover,.side-btn.active{background:var(--panel2);border-color:var(--border)}
 .side-icon{width:22px;text-align:center;font-size:17px}
-.side-spacer{flex:1;min-height:25px}
-.account-box{padding:12px 10px;margin-bottom:8px;background:#111b2d;border:1px solid var(--border);border-radius:12px;overflow-wrap:anywhere}
+.side-spacer{flex:1;min-height:18px}
+.account-box{padding:12px 10px;margin:8px 0;background:var(--panel);
+ border:1px solid var(--border);border-radius:12px;overflow-wrap:anywhere}
 .account-label{font-size:11px;color:var(--muted);margin-bottom:5px}
 .account-email{font-size:12px;color:var(--text)}
-.logout-btn{color:#ffb0b9;border-color:#4c2637;background:#291522}
-.logout-btn:hover{background:#401b2b}
+.logout-btn{color:#ff9dac}
 .mobile-overlay{display:none}
 .main{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column}
-.auth-wrap{width:calc(100% - 30px);max-width:410px;margin:auto;padding:25px;border:1px solid var(--border);background:#111827ef;border-radius:22px;box-shadow:0 20px 70px #0004}
+.auth-wrap{width:calc(100% - 30px);max-width:410px;margin:auto;padding:25px;
+ border:1px solid var(--border);background:var(--panel);border-radius:20px;
+ box-shadow:0 18px 55px var(--shadow)}
 .auth-wrap h2{margin:0 0 8px;font-size:25px}
 .description{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:23px}
 .field{margin:15px 0}
-.field label{display:block;font-size:13px;margin-bottom:8px;color:#d9e0f1}
-.field input{width:100%;padding:13px 14px;color:var(--text);background:#090f1e;border:1px solid var(--border);border-radius:12px;outline:none}
-.field input:focus,textarea:focus{border-color:var(--accent)}
+.field label{display:block;font-size:13px;margin-bottom:8px;color:var(--text)}
+.field input{width:100%;padding:13px 14px;color:var(--text);background:var(--bg);
+ border:1px solid var(--border);border-radius:12px;outline:none}
+.field input:focus{border-color:var(--accent)}
 .primary,.secondary{border:0;border-radius:12px;padding:12px 16px;font-weight:650}
 .primary{color:white;background:linear-gradient(135deg,var(--accent),var(--accent2))}
-.secondary{color:#d9dfff;background:#202b43}
+.secondary{color:var(--text);background:var(--panel2)}
 .full{width:100%;margin-top:8px}
 .switch{color:var(--muted);text-align:center;font-size:13px;margin-top:20px}
-.switch button{border:0;color:#a9a0ff;background:none;font-weight:700}
-.status{font-size:13px;line-height:1.6;margin-top:12px;overflow-wrap:anywhere}
-.error{color:var(--danger)}
-.success{color:var(--success)}
-.chat{display:flex;flex-direction:column;flex:1;min-height:0;padding:0 20px}
-.welcome{text-align:center;margin:auto 0;padding:35px 12px}
-.welcome .big-logo{font-size:48px;margin-bottom:12px}
-.welcome h2{font-size:clamp(25px,5vw,36px);margin:0 0 10px}
+.switch button{border:0;color:var(--accent);background:none;font-weight:700}
+.status{font-size:13px;line-height:1.6;margin-top:10px;overflow-wrap:anywhere}
+.error{color:var(--danger)}.success{color:var(--success)}
+.chat{display:flex;flex-direction:column;flex:1;min-height:0;padding:0 22px}
+.welcome{text-align:center;margin:auto 0;padding:25px 12px}
+.welcome .big-logo{font-size:43px;margin-bottom:10px;color:var(--accent)}
+.welcome h2{font-size:clamp(25px,4vw,34px);margin:0 0 10px;letter-spacing:-.7px}
 .welcome p{color:var(--muted);max-width:480px;margin:auto;line-height:1.7;font-size:14px}
-.quick-tools{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:22px auto 0;max-width:650px}
-.tool-chip{border:1px solid var(--border);background:#141d30;color:var(--text);padding:10px 13px;border-radius:12px;font-size:12px}
-.tool-chip:hover{border-color:var(--accent);background:#202747}
+.quick-tools{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;
+ margin:22px auto 0;max-width:700px}
+.tool-chip{border:1px solid var(--border);background:var(--panel);
+ color:var(--text);padding:10px 13px;border-radius:14px;font-size:12px}
+.tool-chip:hover{border-color:var(--accent);background:var(--panel2)}
 .messages{flex:1;min-height:0;overflow-y:auto;padding:24px 2px;scroll-behavior:smooth}
-.message{display:flex;gap:10px;margin-bottom:23px;align-items:flex-start}
+.message{display:flex;gap:10px;margin-bottom:24px;align-items:flex-start}
 .message.user{flex-direction:row-reverse}
-.avatar{width:35px;height:35px;flex:0 0 35px;border-radius:12px;display:grid;place-items:center;background:#202a42}
+.avatar{width:33px;height:33px;flex:0 0 33px;border-radius:11px;
+ display:grid;place-items:center;background:var(--panel2)}
 .user .avatar{background:#43368a}
-.message-content{max-width:min(80%,680px);min-width:0}
-.bubble{padding:12px 15px;line-height:1.75;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid var(--border);border-radius:4px 16px 16px 16px;background:var(--panel)}
-.user .bubble{background:#27274c;border-color:#45417d;border-radius:16px 4px 16px 16px}
-.message-actions{display:flex;gap:8px;margin-top:6px}
-.small-btn{padding:5px 8px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:7px;font-size:11px}
-.composer{padding:12px 0 5px;border-top:1px solid var(--border);background:var(--bg)}
-.inputbox{display:flex;gap:10px;align-items:flex-end;padding:9px;background:#111827;border:1px solid var(--border);border-radius:17px}
-textarea{flex:1;resize:none;max-height:150px;min-height:43px;padding:11px 8px;color:var(--text);background:transparent;border:1px solid transparent;border-radius:8px;outline:none}
-.send{width:44px;height:44px;border-radius:12px;padding:0;font-size:20px;flex:0 0 44px}
-.hint{color:#77849e;text-align:center;font-size:11px;margin:10px 0 0}
+.message-content{max-width:min(82%,720px);min-width:0}
+.bubble{padding:12px 15px;line-height:1.8;font-size:14px;white-space:pre-wrap;
+ overflow-wrap:anywhere;border:1px solid var(--border);
+ border-radius:4px 16px 16px 16px;background:var(--panel)}
+.user .bubble{background:var(--user);border-color:#45417d;
+ border-radius:16px 4px 16px 16px}
+.message-actions{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap}
+.small-btn{padding:5px 9px;background:transparent;color:var(--muted);
+ border:1px solid var(--border);border-radius:8px;font-size:11px}
+.small-btn:hover{background:var(--panel2);color:var(--text)}
+.composer{padding:12px 0 max(8px,env(safe-area-inset-bottom));
+ background:var(--bg)}
+.composer-inner{max-width:850px;margin:auto}
+.inputbox{display:flex;gap:8px;align-items:flex-end;padding:8px;
+ background:var(--composer);border:1px solid #444751;border-radius:23px;
+ box-shadow:0 4px 18px var(--shadow)}
+textarea{font:inherit}
+#prompt{flex:1;resize:none;max-height:160px;min-height:42px;padding:11px 5px;
+ color:#fff;background:transparent;border:0;border-radius:8px;outline:none;
+ line-height:1.5;font-size:14px}
+#prompt::placeholder{color:#b0b3bd;opacity:1}
+#prompt:focus{border:0;outline:none}
+.send{width:42px;height:42px;border-radius:50%;padding:0;font-size:21px;flex:0 0 42px}
+.attach-wrap{position:relative;flex:0 0 40px}
+.attach-btn{width:40px;height:42px;border:0;border-radius:50%;background:transparent;
+ color:#fff;font-size:25px;display:grid;place-items:center}
+.attach-btn:hover{background:#383b45}
+.attach-menu{position:absolute;bottom:51px;left:0;width:205px;padding:7px;
+ background:#242730;border:1px solid #444751;border-radius:14px;
+ box-shadow:0 12px 35px #0006;z-index:15}
+.attach-option{width:100%;display:flex;gap:11px;align-items:center;padding:11px;
+ border:0;border-radius:9px;background:transparent;color:#fff;text-align:left;font-size:13px}
+.attach-option:hover{background:#383b45}
+.attach-option span:first-child{width:23px;font-size:18px;text-align:center}
+.voice-btn{height:42px;width:42px;flex:0 0 42px;border:0;border-radius:50%;
+ background:transparent;color:#fff;font-size:20px;display:grid;place-items:center}
+.voice-btn:hover,.voice-btn.listening{background:#49416e}
+.hint{color:var(--muted);text-align:center;font-size:10px;line-height:1.5;margin:9px 0 0}
 .history-list{display:flex;flex-direction:column;gap:7px;margin-top:8px}
-.history-item{width:100%;display:flex;gap:8px;align-items:center;text-align:left;padding:10px;border:1px solid var(--border);border-radius:10px;color:var(--text);background:#111b2d;font-size:12px}
-.history-item.active{border-color:var(--accent);background:#1a2440}
-.history-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.history-delete{border:0;background:transparent;color:#ff9eac;padding:4px}
-.tool-panel{border:1px solid var(--border);border-radius:15px;background:#111827;padding:15px;margin:0 0 12px}
-.tool-panel h3{margin:0 0 7px;font-size:15px}
-.tool-panel p{font-size:12px;color:var(--muted);line-height:1.5}
-.tool-panel textarea{width:100%;border:1px solid var(--border);background:#090f1e;display:block;margin:10px 0}
-.file-label{font-size:12px;color:var(--muted);padding:8px;cursor:pointer}
-#fileInput{display:none}
+.history-item{width:100%;display:flex;gap:8px;align-items:center;text-align:left;
+ padding:9px;border:1px solid var(--border);border-radius:10px;
+ color:var(--text);background:var(--panel);font-size:12px;min-width:0}
+.history-item.active{border-color:var(--accent);background:var(--panel2)}
+.history-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+ border:0;background:transparent;color:var(--text);text-align:left;min-width:0}
+.history-delete{border:0;background:transparent;color:var(--danger);padding:4px}
+.tool-mode{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+ margin:10px 3px 0;color:var(--muted);font-size:11px}
+.tool-mode strong{color:var(--accent);font-size:12px}
+.tool-clear{background:transparent;color:var(--muted);border:0;font-size:11px;
+ padding:4px 7px}
+#fileInput,#cameraInput,#photoInput{display:none}
+.file-preview{font-size:11px;color:#d7d9e0;margin:4px 8px;overflow-wrap:anywhere}
 @media(max-width:700px){
-header{padding:10px;gap:9px}
-.brand{gap:8px}
-.logo{width:38px;height:38px;flex-basis:38px}
-h1{font-size:17px}
-.badge{display:none}
-.sidebar{position:absolute;top:0;bottom:0;left:0;z-index:10;width:min(285px,85vw);transform:translateX(-105%);box-shadow:15px 0 45px #0005}
-.sidebar.open{transform:translateX(0)}
-.mobile-overlay.visible{display:block;position:absolute;inset:0;z-index:9;background:#0009}
-.chat{padding:0 10px}
-.message-content{max-width:88%}
-.auth-wrap{padding:21px}
+ header{padding:9px;gap:8px;height:62px;min-height:62px}
+ .brand{gap:7px}.logo{width:35px;height:35px;flex-basis:35px}
+ h1{font-size:16px}.subtitle{font-size:10px}.badge{display:none}
+ .sidebar{position:absolute;top:0;bottom:0;left:0;z-index:12;
+ width:min(285px,85vw);transform:translateX(-105%);box-shadow:15px 0 45px #0005}
+ .sidebar.open{transform:translateX(0)}
+ .mobile-overlay.visible{display:block;position:absolute;inset:0;z-index:11;background:#0008}
+ .chat{padding:0 10px}.welcome{padding:20px 5px}
+ .message-content{max-width:88%}.auth-wrap{padding:21px}
+ .composer{padding-top:8px}
+ .inputbox{gap:4px;padding:6px;border-radius:22px}
+ .attach-wrap,.attach-btn{width:36px;flex-basis:36px}
+ .voice-btn{width:37px;flex-basis:37px}
+ #prompt{font-size:14px;min-width:0}
+ .send{width:39px;height:39px;flex-basis:39px}
 }
 </style>
 </head>
@@ -110,6 +184,7 @@ h1{font-size:17px}
 <button id="themeBtn" class="icon-btn" type="button" aria-label="Change theme">☼</button>
 <span class="badge">● AI Assistant</span>
 </header>
+
 <div class="workspace">
 <div id="mobileOverlay" class="mobile-overlay"></div>
 <aside id="sidebar" class="sidebar">
@@ -119,6 +194,7 @@ h1{font-size:17px}
 <div id="historyList" class="history-list"></div>
 <button id="exportBtn" class="side-btn" type="button"><span class="side-icon">⇩</span><span>Export Conversations</span></button>
 <button id="clearHistoryBtn" class="side-btn" type="button"><span class="side-icon">▤</span><span>Clear Chat History</span></button>
+
 <div class="sidebar-title">AI Tools</div>
 <button class="side-btn tool-select active" data-tool="chat" type="button"><span class="side-icon">✦</span><span>AI Chat</span></button>
 <button class="side-btn tool-select" data-tool="writer" type="button"><span class="side-icon">✎</span><span>AI Writer</span></button>
@@ -127,11 +203,13 @@ h1{font-size:17px}
 <button class="side-btn tool-select" data-tool="video" type="button"><span class="side-icon">▷</span><span>Video Studio</span></button>
 <button class="side-btn tool-select" data-tool="voice" type="button"><span class="side-icon">♫</span><span>Voice Assistant</span></button>
 <button class="side-btn tool-select" data-tool="business" type="button"><span class="side-icon">🏪</span><span>Business Assistant</span></button>
+
 <div class="sidebar-title">Account</div>
 <div class="account-box"><div class="account-label">Logged in as</div><div id="accountEmail" class="account-email">Not logged in</div></div>
 <div class="side-spacer"></div>
 <button id="logoutBtn" class="side-btn logout-btn" type="button"><span class="side-icon">↪</span><span>Sign out</span></button>
 </aside>
+
 <main class="main">
 <section id="authView" class="auth-wrap">
 <h2 id="authTitle">Welcome back</h2>
@@ -144,45 +222,64 @@ h1{font-size:17px}
 <div class="switch"><span id="switchText">Don't have an account?</span> <button id="switchAuth" type="button">Sign up</button></div>
 <div id="authStatus" class="status" role="status"></div>
 </section>
+
 <section id="chatView" class="chat hidden">
 <div id="welcome" class="welcome">
-<div class="big-logo">✦</div><h2 id="welcomeTitle">How can I help you?</h2>
+<div class="big-logo">✦</div>
+<h2 id="welcomeTitle">How can I help you?</h2>
 <p id="welcomeText">Ask a question, explore an idea, write content, or grow your business with AI Genius.</p>
 <div class="quick-tools">
-<button class="tool-chip" data-prompt="Explain this topic in simple words: ">✦ Ask anything</button>
-<button class="tool-chip" data-tool="writer">✎ Write content</button>
-<button class="tool-chip" data-tool="image">▧ Create image prompt</button>
-<button class="tool-chip" data-tool="ideas">✧ Generate ideas</button>
-<button class="tool-chip" data-tool="business">🏪 Business help</button>
+<button class="tool-chip" data-prompt="Explain this topic in simple words: " type="button">✦ Ask anything</button>
+<button class="tool-chip" data-tool="writer" type="button">✎ Write content</button>
+<button class="tool-chip" data-tool="image" type="button">▧ Create image prompt</button>
+<button class="tool-chip" data-tool="ideas" type="button">✧ Generate ideas</button>
+<button class="tool-chip" data-tool="business" type="button">🏪 Business help</button>
 </div>
 </div>
-<div id="toolPanel" class="tool-panel hidden">
-<h3 id="toolTitle">AI Tool</h3><p id="toolDescription"></p>
-<textarea id="toolInput" rows="3" placeholder="Describe what you want..."></textarea>
-<button id="toolUseBtn" class="primary" type="button">Use this tool</button>
-</div>
+
 <div id="messages" class="messages hidden" aria-live="polite"></div>
+
 <div class="composer">
+<div class="composer-inner">
+<div id="toolMode" class="tool-mode hidden"><strong id="toolModeName"></strong><span id="toolModeDescription"></span><button id="clearToolBtn" class="tool-clear" type="button">✕ Clear</button></div>
+
 <form id="chatForm" class="inputbox">
-<label class="file-label" for="fileInput" title="Choose a file">＋</label>
-<input id="fileInput" type="file" accept="image/*,.txt,.md,.pdf">
+<div class="attach-wrap">
+<button id="attachBtn" class="attach-btn" type="button" aria-label="Add photos or files" aria-expanded="false">＋</button>
+<div id="attachMenu" class="attach-menu hidden">
+<button class="attach-option" type="button" data-attach="camera"><span>📷</span><span>Take photo</span></button>
+<button class="attach-option" type="button" data-attach="photos"><span>🖼️</span><span>Photos</span></button>
+<button class="attach-option" type="button" data-attach="files"><span>📎</span><span>Upload file</span></button>
+</div>
+</div>
+
+<input id="cameraInput" type="file" accept="image/*" capture="environment">
+<input id="photoInput" type="file" accept="image/*">
+<input id="fileInput" type="file" accept="image/*,.txt,.md,.pdf,.csv,.json,.doc,.docx">
+
 <textarea id="prompt" rows="1" maxlength="30000" placeholder="Message AI Genius..." aria-label="Message AI Genius" required></textarea>
+<button id="voiceBtn" class="voice-btn" type="button" aria-label="Speak your message" title="Speak your message">🎙</button>
 <button id="sendBtn" class="primary send" type="submit" aria-label="Send message">↑</button>
 </form>
-<p class="hint">For medical or legal decisions, consult a qualified professional. Avoid sharing passwords or private information.</p>
+<div id="filePreview" class="file-preview hidden"></div>
+<p class="hint">AI can make mistakes. Check important information. Avoid sharing passwords or private information.</p>
 <div id="chatStatus" class="status" role="status"></div>
+</div>
 </div>
 </section>
 </main>
 </div>
 </div>
+
 <script>
 "use strict";
+
 const API_BASE = "https://ai-genius.aigeniushub.workers.dev";
 const $ = id => document.getElementById(id);
 const TOKEN_KEY = "ai_genius_token";
 const USER_KEY = "ai_genius_user";
 const HISTORY_PREFIX = "ai_genius_chat_history_";
+
 let token = localStorage.getItem(TOKEN_KEY) || "";
 let currentUser = null;
 let authMode = "login";
@@ -191,326 +288,537 @@ let chatHistory = [];
 let activeChatId = null;
 let activeTool = "chat";
 let selectedFile = null;
-let lightTheme = false;
+let listening = false;
+let recognition = null;
+
 const toolDetails = {
-chat:{title:"AI Chat",description:"Ask questions and chat with AI Genius.",placeholder:"Message AI Genius..."},
-writer:{title:"AI Writer",description:"Create articles, stories, emails and social media posts.",placeholder:"What would you like to write?"},
-image:{title:"Image Studio",description:"Create a detailed image-generation prompt. Actual image generation requires a connected image service.",placeholder:"Describe the image you want to create..."},
-ideas:{title:"Idea Generator",description:"Generate ideas for projects, content and videos.",placeholder:"What topic do you need ideas for?"},
-video:{title:"Video Studio",description:"Prepare video concepts, scene plans and video prompts.",placeholder:"Describe your video idea..."},
-voice:{title:"Voice Assistant",description:"Ask a question and listen to the answer using text-to-speech.",placeholder:"What should the voice assistant help with?"},
-business:{title:"Business Assistant",description:"Prepare product descriptions, customer replies, advertisements and simple marketing plans.",placeholder:"Describe your business and what you need..."}
+ chat:{title:"AI Chat",description:"Ask anything.",placeholder:"Message AI Genius..."},
+ writer:{title:"AI Writer",description:"Writing mode is on. What should I write?",placeholder:"Tell me what you want to write..."},
+ image:{title:"Image Studio",description:"Prompt creation mode is on. Describe your image.",placeholder:"Describe the image you want..."},
+ ideas:{title:"Idea Generator",description:"Idea generation mode is on. What's your topic?",placeholder:"What do you need ideas for?"},
+ video:{title:"Video Studio",description:"Video planning mode is on. Describe your concept.",placeholder:"Describe your video idea..."},
+ voice:{title:"Voice Assistant",description:"Voice mode is on. Type or use the microphone.",placeholder:"What should I help you with?"},
+ business:{title:"Business Assistant",description:"Business mode is on. Tell me what your business needs.",placeholder:"Describe your business request..."}
 };
+
+const toolInstructions = {
+ writer:"Act as AI Writer. Create polished, clear, useful content based on this request. Match the requested language and tone. Request:\n",
+ image:"Act as Image Studio. Create a detailed image-generation prompt including subject, composition, lighting, background, style and useful negative prompt suggestions. Do not claim an image was generated. Request:\n",
+ ideas:"Act as an idea generator. Give creative, practical, organized ideas based on this topic. Topic:\n",
+ video:"Act as Video Studio. Create a video concept with a scene-by-scene outline, camera suggestions and a detailed video-generation prompt. Request:\n",
+ voice:"Act as a helpful voice assistant. Answer naturally, clearly and conversationally. Request:\n",
+ business:"Act as a practical small-business assistant. Help with product descriptions, customer replies, advertisements, social media posts, hashtags and marketing plans. Never invent prices, stock levels, contact details or business policies. Ask for missing information when needed. Keep the result practical and ready to use. Do not claim to update or save business data unless a connected service confirms it.\nBusiness request:\n"
+};
+
 function setStatus(element,message,type="error"){
-element.textContent=message;
-element.className="status "+type;
+ element.textContent=message;
+ element.className="status "+type;
 }
-function clearStatus(element){element.textContent="";element.className="status";}
+function clearStatus(element){
+ element.textContent="";
+ element.className="status";
+}
 function saveToken(value){
-token=value||"";
-if(token)localStorage.setItem(TOKEN_KEY,token);
-else localStorage.removeItem(TOKEN_KEY);
+ token=value||"";
+ if(token)localStorage.setItem(TOKEN_KEY,token);
+ else localStorage.removeItem(TOKEN_KEY);
 }
 function saveUser(user){
-currentUser=user||null;
-if(currentUser){
-localStorage.setItem(USER_KEY,JSON.stringify(currentUser));
-$("accountEmail").textContent=currentUser.email||"Account";
-}else{
-localStorage.removeItem(USER_KEY);
-$("accountEmail").textContent="Not logged in";
-}
+ currentUser=user||null;
+ if(currentUser){
+  localStorage.setItem(USER_KEY,JSON.stringify(currentUser));
+  $("accountEmail").textContent=currentUser.email||"Account";
+ }else{
+  localStorage.removeItem(USER_KEY);
+  $("accountEmail").textContent="Not logged in";
+ }
 }
 function storageKey(){
-const userId=currentUser&&(currentUser.id||currentUser.email);
-return HISTORY_PREFIX+(userId||"guest");
+ const userId=currentUser&&(currentUser.id||currentUser.email);
+ return HISTORY_PREFIX+(userId||"guest");
 }
 function loadHistory(){
-try{
-const value=localStorage.getItem(storageKey());
-const parsed=value?JSON.parse(value):[];
-chatHistory=Array.isArray(parsed)?parsed:[];
-}catch{chatHistory=[];}
-renderHistoryList();
+ try{
+  const value=localStorage.getItem(storageKey());
+  const parsed=value?JSON.parse(value):[];
+  chatHistory=Array.isArray(parsed)?parsed:[];
+ }catch{chatHistory=[];}
+ renderHistoryList();
 }
 function saveHistory(){
-try{localStorage.setItem(storageKey(),JSON.stringify(chatHistory));}
-catch{setStatus($("chatStatus"),"Browser storage is full. Export your chats and remove old conversations.");}
-renderHistoryList();
+ try{localStorage.setItem(storageKey(),JSON.stringify(chatHistory));}
+ catch{setStatus($("chatStatus"),"Browser storage is full. Export your chats and remove old conversations.");}
+ renderHistoryList();
 }
 async function api(path,options={}){
-const headers={"Content-Type":"application/json",...(options.headers||{})};
-if(token)headers.Authorization="Bearer "+token;
-const controller=new AbortController();
-const timer=setTimeout(()=>controller.abort(),45000);
-let response;
-try{
-response=await fetch(API_BASE.replace(/\/+$/,"")+path,{...options,headers,signal:controller.signal});
-}catch(error){
-if(error.name==="AbortError")throw new Error("The request timed out. Please try again.");
-throw new Error("Cannot connect to the server. Check your internet and Worker URL.");
-}finally{clearTimeout(timer);}
-const data=await response.json().catch(()=>({}));
-if(!response.ok||data.success===false)throw new Error(data.error||("Server returned HTTP "+response.status));
-return data;
+ const headers={"Content-Type":"application/json",...(options.headers||{})};
+ if(token)headers.Authorization="Bearer "+token;
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),45000);
+ let response;
+ try{
+  response=await fetch(API_BASE.replace(/\/+$/,"")+path,{
+   ...options,headers,signal:controller.signal
+  });
+ }catch(error){
+  if(error.name==="AbortError")throw new Error("The request timed out. Please try again.");
+  throw new Error("Cannot connect to the server. Check your internet and Worker URL.");
+ }finally{clearTimeout(timer);}
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok||data.success===false){
+  throw new Error(data.error||("Server returned HTTP "+response.status));
+ }
+ return data;
 }
 function showAuth(){
-$("authView").classList.remove("hidden");
-$("chatView").classList.add("hidden");
+ $("authView").classList.remove("hidden");
+ $("chatView").classList.add("hidden");
 }
 function showChat(){
-$("authView").classList.add("hidden");
-$("chatView").classList.remove("hidden");
-loadHistory();
-if(!activeChatId&&chatHistory.length)activeChatId=chatHistory[chatHistory.length-1].id;
-const chat=getActiveChat();
-renderMessages(chat?chat.messages:[]);
+ $("authView").classList.add("hidden");
+ $("chatView").classList.remove("hidden");
+ loadHistory();
+ if(!activeChatId&&chatHistory.length)activeChatId=chatHistory[chatHistory.length-1].id;
+ const chat=getActiveChat();
+ renderMessages(chat?chat.messages:[]);
 }
 function setAuthMode(mode){
-authMode=mode;
-const signup=mode==="signup";
-$("authTitle").textContent=signup?"Create your account":"Welcome back";
-$("authDescription").textContent=signup?"Create an account to start using AI Genius.":"Log in to continue chatting with AI Genius.";
-$("authSubmit").textContent=signup?"Create account":"Log in";
-$("switchText").textContent=signup?"Already have an account?":"Don't have an account?";
-$("switchAuth").textContent=signup?"Log in":"Sign up";
-$("password").autocomplete=signup?"new-password":"current-password";
-clearStatus($("authStatus"));
+ authMode=mode;
+ const signup=mode==="signup";
+ $("authTitle").textContent=signup?"Create your account":"Welcome back";
+ $("authDescription").textContent=signup?"Create an account to start using AI Genius.":"Log in to continue chatting with AI Genius.";
+ $("authSubmit").textContent=signup?"Create account":"Log in";
+ $("switchText").textContent=signup?"Already have an account?":"Don't have an account?";
+ $("switchAuth").textContent=signup?"Log in":"Sign up";
+ $("password").autocomplete=signup?"new-password":"current-password";
+ clearStatus($("authStatus"));
 }
-$("switchAuth").addEventListener("click",()=>setAuthMode(authMode==="login"?"signup":"login"));
-$("authForm").addEventListener("submit",async event=>{
-event.preventDefault();
-if(busy)return;
-const email=$("email").value.trim();
-const password=$("password").value;
-if(authMode==="signup"&&password.length<10){
-setStatus($("authStatus"),"Use a password with at least 10 characters.");return;
-}
-busy=true;$("authSubmit").disabled=true;$("authSubmit").textContent="Please wait...";
-clearStatus($("authStatus"));
-try{
-const endpoint=authMode==="signup"?"/auth/signup":"/auth/login";
-const data=await api(endpoint,{method:"POST",body:JSON.stringify({email,password})});
-if(!data.token)throw new Error("The server did not return a login token. Check Worker authentication support.");
-saveToken(data.token);
-saveUser(data.user||{email});
-$("password").value="";
-activeChatId=null;
-showChat();
-setStatus($("chatStatus"),"You are logged in.","success");
-}catch(error){setStatus($("authStatus"),error.message);}
-finally{
-busy=false;$("authSubmit").disabled=false;
-$("authSubmit").textContent=authMode==="signup"?"Create account":"Log in";
-}
+$("switchAuth").addEventListener("click",()=>{
+ setAuthMode(authMode==="login"?"signup":"login");
 });
-function getActiveChat(){return chatHistory.find(chat=>chat.id===activeChatId)||null;}
-function makeId(){return crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);}
+
+$("authForm").addEventListener("submit",async event=>{
+ event.preventDefault();
+ if(busy)return;
+ const email=$("email").value.trim();
+ const password=$("password").value;
+ if(authMode==="signup"&&password.length<10){
+  setStatus($("authStatus"),"Use a password with at least 10 characters.");
+  return;
+ }
+ busy=true;$("authSubmit").disabled=true;
+ $("authSubmit").textContent="Please wait...";
+ clearStatus($("authStatus"));
+ try{
+  const endpoint=authMode==="signup"?"/auth/signup":"/auth/login";
+  const data=await api(endpoint,{method:"POST",body:JSON.stringify({email,password})});
+  if(!data.token)throw new Error("The server did not return a login token. Check Worker authentication support.");
+  saveToken(data.token);
+  saveUser(data.user||{email});
+  $("password").value="";
+  activeChatId=null;
+  showChat();
+  setStatus($("chatStatus"),"You are logged in.","success");
+ }catch(error){setStatus($("authStatus"),error.message);}
+ finally{
+  busy=false;$("authSubmit").disabled=false;
+  $("authSubmit").textContent=authMode==="signup"?"Create account":"Log in";
+ }
+});
+
+function getActiveChat(){
+ return chatHistory.find(chat=>chat.id===activeChatId)||null;
+}
+function makeId(){
+ return crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);
+}
 function createChat(){
-const chat={id:makeId(),title:"New Chat",updatedAt:new Date().toISOString(),messages:[]};
-chatHistory.push(chat);activeChatId=chat.id;saveHistory();renderMessages([]);
-clearStatus($("chatStatus"));$("newChatBtn").classList.add("active");$("historyBtn").classList.remove("active");closeSidebar();
+ const chat={id:makeId(),title:"New Chat",updatedAt:new Date().toISOString(),messages:[]};
+ chatHistory.push(chat);activeChatId=chat.id;
+ saveHistory();renderMessages([]);
+ clearStatus($("chatStatus"));
+ $("newChatBtn").classList.add("active");
+ $("historyBtn").classList.remove("active");
+ closeSidebar();
 }
 function ensureActiveChat(){
-let chat=getActiveChat();
-if(!chat){
-chat={id:makeId(),title:"New Chat",updatedAt:new Date().toISOString(),messages:[]};
-chatHistory.push(chat);activeChatId=chat.id;
-}
-return chat;
+ let chat=getActiveChat();
+ if(!chat){
+  chat={id:makeId(),title:"New Chat",updatedAt:new Date().toISOString(),messages:[]};
+  chatHistory.push(chat);activeChatId=chat.id;
+ }
+ return chat;
 }
 function addMessageElement(role,text){
-$("welcome").classList.add("hidden");$("messages").classList.remove("hidden");
-const row=document.createElement("div");row.className="message "+role;
-const avatar=document.createElement("div");avatar.className="avatar";avatar.textContent=role==="user"?"👤":"✦";
-const content=document.createElement("div");content.className="message-content";
-const bubble=document.createElement("div");bubble.className="bubble";bubble.textContent=text;content.appendChild(bubble);
-if(role==="assistant"&&text!=="Thinking..."){
-const actions=document.createElement("div");actions.className="message-actions";
-const copyButton=document.createElement("button");copyButton.type="button";copyButton.className="small-btn";copyButton.textContent="Copy";
-copyButton.addEventListener("click",async()=>{
-try{await navigator.clipboard.writeText(bubble.textContent);copyButton.textContent="Copied";setTimeout(()=>copyButton.textContent="Copy",1500);}
-catch{setStatus($("chatStatus"),"Copy was unavailable. Select the answer text manually.");}
-});
-const speakButton=document.createElement("button");speakButton.type="button";speakButton.className="small-btn";speakButton.textContent="Read aloud";
-speakButton.addEventListener("click",()=>{
-if(!("speechSynthesis" in window)){setStatus($("chatStatus"),"Text-to-speech is not supported in this browser.");return;}
-speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(bubble.textContent));
-});
-actions.append(copyButton,speakButton);content.appendChild(actions);
-}
-row.append(avatar,content);$("messages").appendChild(row);$("messages").scrollTop=$("messages").scrollHeight;
-return bubble;
+ $("welcome").classList.add("hidden");
+ $("messages").classList.remove("hidden");
+ const row=document.createElement("div");
+ row.className="message "+role;
+ const avatar=document.createElement("div");
+ avatar.className="avatar";
+ avatar.textContent=role==="user"?"👤":"✦";
+ const content=document.createElement("div");
+ content.className="message-content";
+ const bubble=document.createElement("div");
+ bubble.className="bubble";bubble.textContent=text;
+ content.appendChild(bubble);
+
+ if(role==="assistant"&&text!=="Thinking..."){
+  const actions=document.createElement("div");
+  actions.className="message-actions";
+  const copyButton=document.createElement("button");
+  copyButton.type="button";copyButton.className="small-btn";copyButton.textContent="Copy";
+  copyButton.addEventListener("click",async()=>{
+   try{
+    await navigator.clipboard.writeText(bubble.textContent);
+    copyButton.textContent="Copied";
+    setTimeout(()=>copyButton.textContent="Copy",1500);
+   }catch{setStatus($("chatStatus"),"Copy was unavailable. Select the answer text manually.");}
+  });
+  const speakButton=document.createElement("button");
+  speakButton.type="button";speakButton.className="small-btn";speakButton.textContent="Read aloud";
+  speakButton.addEventListener("click",()=>{
+   if(!("speechSynthesis" in window)){
+    setStatus($("chatStatus"),"Text-to-speech is not supported in this browser.");return;
+   }
+   speechSynthesis.cancel();
+   speechSynthesis.speak(new SpeechSynthesisUtterance(bubble.textContent));
+  });
+  actions.append(copyButton,speakButton);
+  content.appendChild(actions);
+ }
+ row.append(avatar,content);
+ $("messages").appendChild(row);
+ $("messages").scrollTop=$("messages").scrollHeight;
+ return bubble;
 }
 function renderMessages(messages=[]){
-$("messages").replaceChildren();
-if(!messages.length){$("messages").classList.add("hidden");$("welcome").classList.remove("hidden");return;}
-$("welcome").classList.add("hidden");$("messages").classList.remove("hidden");
-messages.forEach(message=>addMessageElement(message.role,message.text));
-$("messages").scrollTop=$("messages").scrollHeight;
+ $("messages").replaceChildren();
+ if(!messages.length){
+  $("messages").classList.add("hidden");
+  $("welcome").classList.remove("hidden");
+  return;
+ }
+ $("welcome").classList.add("hidden");
+ $("messages").classList.remove("hidden");
+ messages.forEach(message=>addMessageElement(message.role,message.text));
+ $("messages").scrollTop=$("messages").scrollHeight;
 }
 function renderHistoryList(){
-const container=$("historyList");if(!container)return;
-container.replaceChildren();
-[...chatHistory].reverse().forEach(chat=>{
-const row=document.createElement("div");
-row.className="history-item"+(chat.id===activeChatId?" active":"");
-const open=document.createElement("button");
-open.type="button";open.className="history-item history-name";open.textContent=chat.title||"New Chat";
-open.addEventListener("click",()=>{
-activeChatId=chat.id;renderMessages(chat.messages||[]);renderHistoryList();closeSidebar();
-$("newChatBtn").classList.remove("active");$("historyBtn").classList.add("active");
-});
-const remove=document.createElement("button");
-remove.type="button";remove.className="history-delete";remove.textContent="×";
-remove.title="Delete this conversation";remove.setAttribute("aria-label","Delete conversation");
-remove.addEventListener("click",event=>{
-event.stopPropagation();if(!confirm("Delete this conversation?"))return;
-chatHistory=chatHistory.filter(item=>item.id!==chat.id);
-if(activeChatId===chat.id){activeChatId=null;renderMessages([]);}
-saveHistory();
-});
-row.append(open,remove);container.appendChild(row);
-});
+ const container=$("historyList");
+ if(!container)return;
+ container.replaceChildren();
+ [...chatHistory].reverse().forEach(chat=>{
+  const row=document.createElement("div");
+  row.className="history-item"+(chat.id===activeChatId?" active":"");
+  const open=document.createElement("button");
+  open.type="button";open.className="history-name";
+  open.textContent=chat.title||"New Chat";
+  open.addEventListener("click",()=>{
+   activeChatId=chat.id;
+   renderMessages(chat.messages||[]);
+   renderHistoryList();closeSidebar();
+   $("newChatBtn").classList.remove("active");
+   $("historyBtn").classList.add("active");
+  });
+  const remove=document.createElement("button");
+  remove.type="button";remove.className="history-delete";
+  remove.textContent="×";remove.title="Delete this conversation";
+  remove.setAttribute("aria-label","Delete conversation");
+  remove.addEventListener("click",event=>{
+   event.stopPropagation();
+   if(!confirm("Delete this conversation?"))return;
+   chatHistory=chatHistory.filter(item=>item.id!==chat.id);
+   if(activeChatId===chat.id){activeChatId=null;renderMessages([]);}
+   saveHistory();
+  });
+  row.append(open,remove);container.appendChild(row);
+ });
 }
+
 function setTool(tool){
-if(!toolDetails[tool])tool="chat";
-activeTool=tool;
-document.querySelectorAll(".tool-select").forEach(button=>button.classList.toggle("active",button.dataset.tool===tool));
-const details=toolDetails[tool];const panel=$("toolPanel");
-if(tool==="chat"){
-panel.classList.add("hidden");$("prompt").placeholder=details.placeholder;closeSidebar();return;
+ if(!toolDetails[tool])tool="chat";
+ activeTool=tool;
+ document.querySelectorAll(".tool-select").forEach(button=>{
+  button.classList.toggle("active",button.dataset.tool===tool);
+ });
+ const details=toolDetails[tool];
+ $("toolMode").classList.toggle("hidden",tool==="chat");
+ $("toolModeName").textContent=tool==="chat"?"":details.title;
+ $("toolModeDescription").textContent=tool==="chat"?"":details.description;
+ $("prompt").placeholder=details.placeholder;
+ closeSidebar();
 }
-panel.classList.remove("hidden");
-$("toolTitle").textContent=details.title;
-$("toolDescription").textContent=details.description;
-$("toolInput").placeholder=details.placeholder;
-$("prompt").placeholder=details.placeholder;
-closeSidebar();
-}
-document.querySelectorAll(".tool-select").forEach(button=>button.addEventListener("click",()=>setTool(button.dataset.tool)));
-document.querySelectorAll(".tool-chip").forEach(button=>button.addEventListener("click",()=>{
-if(button.dataset.tool){setTool(button.dataset.tool);$("toolInput").focus();}
-else if(button.dataset.prompt){$("prompt").value=button.dataset.prompt;$("prompt").focus();}
-}));
-$("toolUseBtn").addEventListener("click",()=>{
-const value=$("toolInput").value.trim();
-if(!value){setStatus($("chatStatus"),"Enter a description first.");return;}
-const instructions={
-writer:"Act as AI Writer. Create polished, clear content based on this request:\n",
-image:"Create a detailed image-generation prompt. Include subject, composition, lighting, background, style and useful negative prompt suggestions. Do not claim an image was generated:\n",
-ideas:"Act as an idea generator. Give a useful list of creative and practical ideas based on this topic:\n",
-video:"Create a video concept with a scene-by-scene outline, camera suggestions and a detailed video-generation prompt:\n",
-voice:"Act as a helpful voice assistant. Answer naturally, clearly and conversationally:\n",
-business:"Act as a practical small-business assistant. Help with product descriptions, customer replies, advertisements, social media posts and marketing plans. Never invent prices, stock levels, contact details or business policies. Ask for missing information when needed. Keep content practical and ready to use. This is a planning assistant; do not claim to save products or update a database unless the connected service confirms it.\nBusiness request:\n"
-};
-$("prompt").value=(instructions[activeTool]||"")+value;
-$("prompt").focus();$("chatForm").requestSubmit();
+document.querySelectorAll(".tool-select").forEach(button=>{
+ button.addEventListener("click",()=>{
+  setTool(button.dataset.tool);
+  $("prompt").focus();
+ });
 });
-$("fileInput").addEventListener("change",()=>{
-const file=$("fileInput").files[0];selectedFile=file||null;if(!file)return;
-if(file.size>5*1024*1024){
-selectedFile=null;$("fileInput").value="";
-setStatus($("chatStatus"),"This file is larger than 5 MB. Choose a smaller file.");return;
-}
-setStatus($("chatStatus"),"Selected: "+file.name+". This version does not upload file contents. Paste relevant text into your message.","success");
+document.querySelectorAll(".tool-chip").forEach(button=>{
+ button.addEventListener("click",()=>{
+  if(button.dataset.tool){
+   setTool(button.dataset.tool);
+   $("prompt").focus();
+  }else if(button.dataset.prompt){
+   setTool("chat");
+   $("prompt").value=button.dataset.prompt;
+   $("prompt").focus();
+  }
+ });
 });
+$("clearToolBtn").addEventListener("click",()=>{
+ setTool("chat");$("prompt").focus();
+});
+
+function toggleAttachMenu(force){
+ const open=typeof force==="boolean"?force:$("attachMenu").classList.contains("hidden");
+ $("attachMenu").classList.toggle("hidden",!open);
+ $("attachBtn").setAttribute("aria-expanded",String(open));
+}
+$("attachBtn").addEventListener("click",()=>toggleAttachMenu());
+document.addEventListener("click",event=>{
+ if(!$("attachMenu").contains(event.target)&&event.target!==$("attachBtn")){
+  toggleAttachMenu(false);
+ }
+});
+document.querySelectorAll("[data-attach]").forEach(button=>{
+ button.addEventListener("click",()=>{
+  const type=button.dataset.attach;
+  toggleAttachMenu(false);
+  if(type==="camera")$("cameraInput").click();
+  if(type==="photos")$("photoInput").click();
+  if(type==="files")$("fileInput").click();
+ });
+});
+function handleFile(file){
+ if(!file)return;
+ if(file.size>5*1024*1024){
+  selectedFile=null;
+  $("filePreview").classList.add("hidden");
+  setStatus($("chatStatus"),"This file is larger than 5 MB. Choose a smaller file.");
+  return;
+ }
+ selectedFile=file;
+ $("filePreview").textContent="📎 "+file.name+" · "+Math.ceil(file.size/1024)+" KB";
+ $("filePreview").classList.remove("hidden");
+ const isImage=file.type.startsWith("image/");
+ setStatus($("chatStatus"),isImage?
+  "Image selected. This version does not send image contents to the AI server.":"File selected. This version does not upload or analyze file contents. Paste relevant text into your message.","success");
+}
+["cameraInput","photoInput","fileInput"].forEach(id=>{
+ $(id).addEventListener("change",event=>{
+  handleFile(event.target.files[0]);
+ });
+});
+
 async function sendMessage(message){
-const data=await api("/chat",{method:"POST",body:JSON.stringify({prompt:message})});
-if(typeof data.reply!=="string"||!data.reply.trim())throw new Error("The server returned an empty reply. Check the Worker /chat response format.");
-return data.reply;
+ const data=await api("/chat",{method:"POST",body:JSON.stringify({prompt:message})});
+ if(typeof data.reply!=="string"||!data.reply.trim()){
+  throw new Error("The server returned an empty reply. Check the Worker /chat response format.");
+ }
+ return data.reply;
 }
+
 $("chatForm").addEventListener("submit",async event=>{
-event.preventDefault();if(busy)return;
-const message=$("prompt").value.trim();if(!message)return;
-if(!token){showAuth();setStatus($("authStatus"),"Please log in to continue.");return;}
-busy=true;$("sendBtn").disabled=true;$("prompt").disabled=true;clearStatus($("chatStatus"));
-$("prompt").value="";$("prompt").style.height="auto";
-const chat=ensureActiveChat();
-if(!chat.messages.length)chat.title=message.slice(0,45);
-chat.messages.push({role:"user",text:message});
-chat.updatedAt=new Date().toISOString();saveHistory();addMessageElement("user",message);
-const replyBubble=addMessageElement("assistant","Thinking...");
-let completed=false;
-try{
-const reply=await sendMessage(message);replyBubble.textContent=reply;
-chat.messages.push({role:"assistant",text:reply});chat.updatedAt=new Date().toISOString();saveHistory();completed=true;
-}catch(error){
-replyBubble.textContent="Sorry, the request failed.";setStatus($("chatStatus"),error.message);
-if(/HTTP 401|unauthorized|token/i.test(error.message)){
-saveToken("");showAuth();setStatus($("authStatus"),"Your session may have expired. Please log in again.");
-}
-}finally{
-busy=false;$("sendBtn").disabled=false;$("prompt").disabled=false;$("prompt").focus();
-$("messages").scrollTop=$("messages").scrollHeight;
-if(!completed){chat.updatedAt=new Date().toISOString();saveHistory();}
-}
+ event.preventDefault();
+ if(busy)return;
+ let message=$("prompt").value.trim();
+ if(!message&&!selectedFile)return;
+ if(!message&&selectedFile)message="I selected the file "+selectedFile.name+". Please note: this version cannot read the file contents yet.";
+ if(!token){
+  showAuth();setStatus($("authStatus"),"Please log in to continue.");return;
+ }
+ if(activeTool!=="chat"){
+  message=(toolInstructions[activeTool]||"")+message;
+ }
+ busy=true;
+ $("sendBtn").disabled=true;
+ $("prompt").disabled=true;
+ $("voiceBtn").disabled=true;
+ clearStatus($("chatStatus"));
+ $("prompt").value="";
+ $("prompt").style.height="auto";
+ const chat=ensureActiveChat();
+ if(!chat.messages.length)chat.title=message.slice(0,45);
+ chat.messages.push({role:"user",text:message});
+ chat.updatedAt=new Date().toISOString();
+ saveHistory();addMessageElement("user",message);
+ const replyBubble=addMessageElement("assistant","Thinking...");
+ let completed=false;
+ try{
+  const reply=await sendMessage(message);
+  replyBubble.textContent=reply;
+  chat.messages.push({role:"assistant",text:reply});
+  chat.updatedAt=new Date().toISOString();
+  saveHistory();completed=true;
+ }catch(error){
+  replyBubble.textContent="Sorry, the request failed.";
+  setStatus($("chatStatus"),error.message);
+  if(/HTTP 401|unauthorized|token/i.test(error.message)){
+   saveToken("");showAuth();
+   setStatus($("authStatus"),"Your session may have expired. Please log in again.");
+  }
+ }finally{
+  busy=false;
+  $("sendBtn").disabled=false;
+  $("prompt").disabled=false;
+  $("voiceBtn").disabled=false;
+  $("prompt").focus();
+  $("messages").scrollTop=$("messages").scrollHeight;
+  if(!completed){chat.updatedAt=new Date().toISOString();saveHistory();}
+  if(completed&&activeTool==="voice"&&"speechSynthesis" in window){
+   const last=chat.messages[chat.messages.length-1];
+   if(last&&last.role==="assistant"){
+    speechSynthesis.cancel();
+    speechSynthesis.speak(new SpeechSynthesisUtterance(last.text));
+   }
+  }
+  selectedFile=null;
+  $("filePreview").classList.add("hidden");
+  $("filePreview").textContent="";
+  $("cameraInput").value="";
+  $("photoInput").value="";
+  $("fileInput").value="";
+ }
 });
 $("prompt").addEventListener("input",()=>{
-const input=$("prompt");input.style.height="auto";input.style.height=Math.min(input.scrollHeight,150)+"px";
+ const input=$("prompt");
+ input.style.height="auto";
+ input.style.height=Math.min(input.scrollHeight,160)+"px";
 });
 $("prompt").addEventListener("keydown",event=>{
-if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();$("chatForm").requestSubmit();}
+ if(event.key==="Enter"&&!event.shiftKey){
+  event.preventDefault();$("chatForm").requestSubmit();
+ }
 });
+
+function startVoiceInput(){
+ const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SpeechRecognition){
+  setStatus($("chatStatus"),"Voice typing is not supported in this browser. Try Chrome and check microphone permission.");
+  return;
+ }
+ if(listening&&recognition){
+  recognition.stop();return;
+ }
+ recognition=new SpeechRecognition();
+ recognition.lang="en-US";
+ recognition.interimResults=true;
+ recognition.continuous=false;
+ let finalText="";
+ recognition.onstart=()=>{
+  listening=true;
+  $("voiceBtn").classList.add("listening");
+  $("voiceBtn").textContent="■";
+  $("voiceBtn").setAttribute("aria-label","Stop voice typing");
+  setStatus($("chatStatus"),"Listening… speak now.","success");
+ };
+ recognition.onresult=event=>{
+  let interim="";
+  for(let i=event.resultIndex;i<event.results.length;i++){
+   const text=event.results[i][0].transcript;
+   if(event.results[i].isFinal)finalText+=text;
+   else interim+=text;
+  }
+  $("prompt").value=(finalText+interim).trim();
+  $("prompt").dispatchEvent(new Event("input"));
+ };
+ recognition.onerror=event=>{
+  setStatus($("chatStatus"),event.error==="not-allowed"?
+   "Microphone permission was denied. Allow microphone access in your browser settings.":
+   "Voice input stopped: "+event.error);
+ };
+ recognition.onend=()=>{
+  listening=false;
+  $("voiceBtn").classList.remove("listening");
+  $("voiceBtn").textContent="🎙";
+  $("voiceBtn").setAttribute("aria-label","Speak your message");
+  if(finalText.trim())setStatus($("chatStatus"),"Voice text added. Press send when ready.","success");
+ };
+ recognition.start();
+}
+$("voiceBtn").addEventListener("click",startVoiceInput);
+
 $("newChatBtn").addEventListener("click",createChat);
 $("historyBtn").addEventListener("click",()=>{
-loadHistory();
-if(!chatHistory.length)setStatus($("chatStatus"),"No saved conversations yet.","success");
-else setStatus($("chatStatus"),"Select a conversation from the Recent Conversations list.","success");
-closeSidebar();
+ loadHistory();
+ if(!chatHistory.length)setStatus($("chatStatus"),"No saved conversations yet.","success");
+ else setStatus($("chatStatus"),"Select a conversation from the Recent Conversations list.","success");
+ closeSidebar();
 });
 $("clearHistoryBtn").addEventListener("click",()=>{
-if(!confirm("Delete all saved conversations for this account?"))return;
-chatHistory=[];activeChatId=null;saveHistory();renderMessages([]);clearStatus($("chatStatus"));closeSidebar();
+ if(!confirm("Delete all saved conversations for this account?"))return;
+ chatHistory=[];activeChatId=null;saveHistory();renderMessages([]);
+ clearStatus($("chatStatus"));closeSidebar();
 });
 $("exportBtn").addEventListener("click",()=>{
-const blob=new Blob([JSON.stringify(chatHistory,null,2)],{type:"application/json"});
-const url=URL.createObjectURL(blob);const link=document.createElement("a");
-link.href=url;link.download="ai-genius-conversations.json";link.click();
-setTimeout(()=>URL.revokeObjectURL(url),1000);
-setStatus($("chatStatus"),"Conversation export prepared.","success");
+ const blob=new Blob([JSON.stringify(chatHistory,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement("a");
+ link.href=url;link.download="ai-genius-conversations.json";link.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+ setStatus($("chatStatus"),"Conversation export prepared.","success");
 });
 function closeSidebar(){
-$("sidebar").classList.remove("open");$("mobileOverlay").classList.remove("visible");
-$("menuBtn").setAttribute("aria-expanded","false");
+ $("sidebar").classList.remove("open");
+ $("mobileOverlay").classList.remove("visible");
+ $("menuBtn").setAttribute("aria-expanded","false");
 }
 $("menuBtn").addEventListener("click",()=>{
-const open=!$("sidebar").classList.contains("open");
-$("sidebar").classList.toggle("open",open);$("mobileOverlay").classList.toggle("visible",open);
-$("menuBtn").setAttribute("aria-expanded",String(open));
+ const open=!$("sidebar").classList.contains("open");
+ $("sidebar").classList.toggle("open",open);
+ $("mobileOverlay").classList.toggle("visible",open);
+ $("menuBtn").setAttribute("aria-expanded",String(open));
 });
 $("mobileOverlay").addEventListener("click",closeSidebar);
-$("themeBtn").addEventListener("click",()=>{
-lightTheme=!lightTheme;
-const values=lightTheme?
-{"--bg":"#f3f5fb","--panel":"#ffffff","--panel2":"#e9edf8","--border":"#d4daea","--text":"#172039","--muted":"#5d6880"}:
-{"--bg":"#090d18","--panel":"#111827","--panel2":"#151f32","--border":"#253047","--text":"#f3f6ff","--muted":"#9ba8c2"};
-Object.entries(values).forEach(([key,value])=>document.documentElement.style.setProperty(key,value));
-$("themeBtn").textContent=lightTheme?"☾":"☼";
-});
-$("logoutBtn").addEventListener("click",async()=>{
-try{if(token)await api("/auth/logout",{method:"POST"});}
-catch(error){console.warn("Logout endpoint response:",error.message);}
-saveToken("");saveUser(null);currentUser=null;chatHistory=[];activeChatId=null;
-$("messages").replaceChildren();$("messages").classList.add("hidden");$("welcome").classList.remove("hidden");
-showAuth();setAuthMode("login");setStatus($("authStatus"),"You have logged out.","success");closeSidebar();
-});
-async function initialize(){
-try{
-const savedUser=localStorage.getItem(USER_KEY);
-if(savedUser)currentUser=JSON.parse(savedUser);
-}catch{currentUser=null;}
-if(currentUser)$("accountEmail").textContent=currentUser.email||"Account";
-if(!token){showAuth();return;}
-try{
-const data=await api("/auth/me",{method:"GET"});
-saveUser(data.user||currentUser);showChat();
-}catch(error){
-saveToken("");saveUser(null);showAuth();
-setStatus($("authStatus"),"Could not verify your session. Please log in. "+error.message);
+
+let lightTheme=false;
+try{lightTheme=localStorage.getItem("ai_genius_theme")==="light";}catch{}
+function applyTheme(){
+ document.body.classList.toggle("light",lightTheme);
+ $("themeBtn").textContent=lightTheme?"☾":"☼";
+ $("themeBtn").setAttribute("aria-label",lightTheme?"Switch to dark mode":"Switch to day mode");
+ document.querySelector('meta[name="theme-color"]').content=lightTheme?"#e9ebf0":"#111318";
 }
+$("themeBtn").addEventListener("click",()=>{
+ lightTheme=!lightTheme;
+ applyTheme();
+ try{localStorage.setItem("ai_genius_theme",lightTheme?"light":"dark");}catch{}
+});
+applyTheme();
+
+$("logoutBtn").addEventListener("click",async()=>{
+ try{if(token)await api("/auth/logout",{method:"POST"});}
+ catch(error){console.warn("Logout endpoint response:",error.message);}
+ saveToken("");saveUser(null);
+ currentUser=null;chatHistory=[];activeChatId=null;
+ $("messages").replaceChildren();
+ $("messages").classList.add("hidden");
+ $("welcome").classList.remove("hidden");
+ showAuth();setAuthMode("login");
+ setStatus($("authStatus"),"You have logged out.","success");
+ closeSidebar();
+});
+
+async function initialize(){
+ try{
+  const savedUser=localStorage.getItem(USER_KEY);
+  if(savedUser)currentUser=JSON.parse(savedUser);
+ }catch{currentUser=null;}
+ if(currentUser)$("accountEmail").textContent=currentUser.email||"Account";
+ if(!token){showAuth();return;}
+ try{
+  const data=await api("/auth/me",{method:"GET"});
+  saveUser(data.user||currentUser);
+  showChat();
+ }catch(error){
+  saveToken("");saveUser(null);showAuth();
+  setStatus($("authStatus"),"Could not verify your session. Please log in. "+error.message);
+ }
 }
 initialize();
 </script>
 </body>
 </html>
+
