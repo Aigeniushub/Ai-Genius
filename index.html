@@ -7,7 +7,6 @@
 <meta name="theme-color" content="#111318">
 <meta name="description" content="AI Genius is your intelligent AI workspace for writing, ideas, business assistance and creative projects.">
 <title>AI Genius — AI Workspace</title>
-
 <style>
 *{box-sizing:border-box}
 :root{
@@ -174,9 +173,9 @@ textarea{font:inherit}
 <header>
 <button id="menuBtn" class="icon-btn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
 <div class="brand"><div class="logo">✦</div><div><h1>AI Genius</h1><div class="subtitle">Your intelligent AI workspace</div></div></div>
+<button id="themeBtn" class="icon-btn" type="button" aria-label="Switch to day mode">☼</button>
 <span class="badge">● AI Assistant</span>
 </header>
-
 <div class="workspace">
 <div id="mobileOverlay" class="mobile-overlay"></div>
 <aside id="sidebar" class="sidebar">
@@ -186,7 +185,6 @@ textarea{font:inherit}
 <div id="historyList" class="history-list"></div>
 <button id="exportBtn" class="side-btn" type="button"><span class="side-icon">⇩</span><span>Export Conversations</span></button>
 <button id="clearHistoryBtn" class="side-btn" type="button"><span class="side-icon">▤</span><span>Clear Chat History</span></button>
-
 <div class="sidebar-title">AI Tools</div>
 <button class="side-btn tool-select active" data-tool="chat" type="button"><span class="side-icon">✦</span><span>AI Chat</span></button>
 <button class="side-btn tool-select" data-tool="writer" type="button"><span class="side-icon">✎</span><span>AI Writer</span></button>
@@ -195,13 +193,11 @@ textarea{font:inherit}
 <button class="side-btn tool-select" data-tool="video" type="button"><span class="side-icon">▷</span><span>Video Studio</span></button>
 <button class="side-btn tool-select" data-tool="voice" type="button"><span class="side-icon">♫</span><span>Voice Assistant</span></button>
 <button class="side-btn tool-select" data-tool="business" type="button"><span class="side-icon">🏪</span><span>Business Assistant</span></button>
-
 <div class="sidebar-title">Account</div>
 <div class="account-box"><div class="account-label">Logged in as</div><div id="accountEmail" class="account-email">Not logged in</div></div>
 <div class="side-spacer"></div>
 <button id="logoutBtn" class="side-btn logout-btn" type="button"><span class="side-icon">↪</span><span>Sign out</span></button>
 </aside>
-
 <main class="main">
 <section id="authView" class="auth-wrap">
 <h2 id="authTitle">Welcome back</h2>
@@ -214,7 +210,6 @@ textarea{font:inherit}
 <div class="switch"><span id="switchText">Don't have an account?</span> <button id="switchAuth" type="button">Sign up</button></div>
 <div id="authStatus" class="status" role="status"></div>
 </section>
-
 <section id="chatView" class="chat hidden">
 <div id="welcome" class="welcome">
 <div class="big-logo">✦</div>
@@ -228,13 +223,10 @@ textarea{font:inherit}
 <button class="tool-chip" data-tool="business" type="button">🏪 Business help</button>
 </div>
 </div>
-
 <div id="messages" class="messages hidden" aria-live="polite"></div>
-
 <div class="composer">
 <div class="composer-inner">
 <div id="toolMode" class="tool-mode hidden"><strong id="toolModeName"></strong><span id="toolModeDescription"></span><button id="clearToolBtn" class="tool-clear" type="button">✕ Clear</button></div>
-
 <form id="chatForm" class="inputbox">
 <div class="attach-wrap">
 <button id="attachBtn" class="attach-btn" type="button" aria-label="Add photos or files" aria-expanded="false">＋</button>
@@ -244,11 +236,9 @@ textarea{font:inherit}
 <button class="attach-option" type="button" data-attach="files"><span>📎</span><span>Upload file</span></button>
 </div>
 </div>
-
 <input id="cameraInput" type="file" accept="image/*" capture="environment">
 <input id="photoInput" type="file" accept="image/*">
 <input id="fileInput" type="file" accept="image/*,.txt,.md,.pdf,.csv,.json,.doc,.docx">
-
 <textarea id="prompt" rows="1" maxlength="30000" placeholder="Message AI Genius..." aria-label="Message AI Genius" required></textarea>
 <button id="voiceBtn" class="voice-btn" type="button" aria-label="Speak your message" title="Speak your message">🎙</button>
 <button id="sendBtn" class="primary send" type="submit" aria-label="Send message">↑</button>
@@ -261,16 +251,13 @@ textarea{font:inherit}
 </main>
 </div>
 </div>
-
 <script>
 "use strict";
-
 const API_BASE = "https://ai-genius.aigeniushub.workers.dev";
 const $ = id => document.getElementById(id);
 const TOKEN_KEY = "ai_genius_token";
 const USER_KEY = "ai_genius_user";
 const HISTORY_PREFIX = "ai_genius_chat_history_";
-
 let token = localStorage.getItem(TOKEN_KEY) || "";
 let currentUser = null;
 let authMode = "login";
@@ -281,7 +268,6 @@ let activeTool = "chat";
 let selectedFile = null;
 let listening = false;
 let recognition = null;
-
 const toolDetails = {
  chat:{title:"AI Chat",description:"Ask anything.",placeholder:"Message AI Genius..."},
  writer:{title:"AI Writer",description:"Writing mode is on. What should I write?",placeholder:"Tell me what you want to write..."},
@@ -289,11 +275,8 @@ const toolDetails = {
  ideas:{title:"Idea Generator",description:"Idea generation mode is on. What's your topic?",placeholder:"What do you need ideas for?"},
  video:{title:"Video Studio",description:"Video planning mode is on. Describe your concept.",placeholder:"Describe your video idea..."},
  voice:{title:"Voice Assistant",description:"Voice mode is on. Type or use the microphone.",placeholder:"What should I help you with?"},
- business:{title:"Business Assistant",description:"Business mode is on. Tell me what your business needs.",placeholder:"Describe your business request..."}
-description: "Business Assistant helps with 24/7 customer support, marketing content creation, inventory management, business analytics, and automated task management.",
-placeholder: "Describe your business request..."
+ business:{title:"Business Assistant",description:"Business Assistant helps with 24/7 customer support, marketing content creation, inventory management, business analytics, and automated task management.",placeholder:"Describe your business request..."}
 };
-
 const toolInstructions = {
  writer:"Act as AI Writer. Create polished, clear, useful content based on this request. Match the requested language and tone. Request:\n",
  image:"Act as Image Studio. Create a detailed image-generation prompt including subject, composition, lighting, background, style and useful negative prompt suggestions. Do not claim an image was generated. Request:\n",
@@ -302,19 +285,13 @@ const toolInstructions = {
  voice:"Act as a helpful voice assistant. Answer naturally, clearly and conversationally. Request:\n",
  business:"Act as a practical small-business assistant. Help with product descriptions, customer replies, advertisements, social media posts, hashtags and marketing plans. Never invent prices, stock levels, contact details or business policies. Ask for missing information when needed. Keep the result practical and ready to use. Do not claim to update or save business data unless a connected service confirms it.\nBusiness request:\n"
 };
-
 function setStatus(element,message,type="error"){
- element.textContent=message;
- element.className="status "+type;
+ element.textContent=message;element.className="status "+type;
 }
-function clearStatus(element){
- element.textContent="";
- element.className="status";
-}
+function clearStatus(element){element.textContent="";element.className="status";}
 function saveToken(value){
  token=value||"";
- if(token)localStorage.setItem(TOKEN_KEY,token);
- else localStorage.removeItem(TOKEN_KEY);
+ if(token)localStorage.setItem(TOKEN_KEY,token);else localStorage.removeItem(TOKEN_KEY);
 }
 function saveUser(user){
  currentUser=user||null;
@@ -322,8 +299,7 @@ function saveUser(user){
   localStorage.setItem(USER_KEY,JSON.stringify(currentUser));
   $("accountEmail").textContent=currentUser.email||"Account";
  }else{
-  localStorage.removeItem(USER_KEY);
-  $("accountEmail").textContent="Not logged in";
+  localStorage.removeItem(USER_KEY);$("accountEmail").textContent="Not logged in";
  }
 }
 function storageKey(){
@@ -350,34 +326,26 @@ async function api(path,options={}){
  const timer=setTimeout(()=>controller.abort(),45000);
  let response;
  try{
-  response=await fetch(API_BASE.replace(/\/+$/,"")+path,{
-   ...options,headers,signal:controller.signal
-  });
+  response=await fetch(API_BASE.replace(/\/+$/,"")+path,{...options,headers,signal:controller.signal});
  }catch(error){
   if(error.name==="AbortError")throw new Error("The request timed out. Please try again.");
   throw new Error("Cannot connect to the server. Check your internet and Worker URL.");
  }finally{clearTimeout(timer);}
  const data=await response.json().catch(()=>({}));
- if(!response.ok||data.success===false){
-  throw new Error(data.error||("Server returned HTTP "+response.status));
- }
+ if(!response.ok||data.success===false)throw new Error(data.error||("Server returned HTTP "+response.status));
  return data;
 }
 function showAuth(){
- $("authView").classList.remove("hidden");
- $("chatView").classList.add("hidden");
+ $("authView").classList.remove("hidden");$("chatView").classList.add("hidden");
 }
 function showChat(){
- $("authView").classList.add("hidden");
- $("chatView").classList.remove("hidden");
+ $("authView").classList.add("hidden");$("chatView").classList.remove("hidden");
  loadHistory();
  if(!activeChatId&&chatHistory.length)activeChatId=chatHistory[chatHistory.length-1].id;
- const chat=getActiveChat();
- renderMessages(chat?chat.messages:[]);
+ const chat=getActiveChat();renderMessages(chat?chat.messages:[]);
 }
 function setAuthMode(mode){
- authMode=mode;
- const signup=mode==="signup";
+ authMode=mode;const signup=mode==="signup";
  $("authTitle").textContent=signup?"Create your account":"Welcome back";
  $("authDescription").textContent=signup?"Create an account to start using AI Genius.":"Log in to continue chatting with AI Genius.";
  $("authSubmit").textContent=signup?"Create account":"Log in";
@@ -386,31 +354,23 @@ function setAuthMode(mode){
  $("password").autocomplete=signup?"new-password":"current-password";
  clearStatus($("authStatus"));
 }
-$("switchAuth").addEventListener("click",()=>{
- setAuthMode(authMode==="login"?"signup":"login");
-});
-
+$("switchAuth").addEventListener("click",()=>setAuthMode(authMode==="login"?"signup":"login"));
 $("authForm").addEventListener("submit",async event=>{
  event.preventDefault();
  if(busy)return;
  const email=$("email").value.trim();
  const password=$("password").value;
  if(authMode==="signup"&&password.length<10){
-  setStatus($("authStatus"),"Use a password with at least 10 characters.");
-  return;
+  setStatus($("authStatus"),"Use a password with at least 10 characters.");return;
  }
- busy=true;$("authSubmit").disabled=true;
- $("authSubmit").textContent="Please wait...";
+ busy=true;$("authSubmit").disabled=true;$("authSubmit").textContent="Please wait...";
  clearStatus($("authStatus"));
  try{
   const endpoint=authMode==="signup"?"/auth/signup":"/auth/login";
   const data=await api(endpoint,{method:"POST",body:JSON.stringify({email,password})});
   if(!data.token)throw new Error("The server did not return a login token. Check Worker authentication support.");
-  saveToken(data.token);
-  saveUser(data.user||{email});
-  $("password").value="";
-  activeChatId=null;
-  showChat();
+  saveToken(data.token);saveUser(data.user||{email});
+  $("password").value="";activeChatId=null;showChat();
   setStatus($("chatStatus"),"You are logged in.","success");
  }catch(error){setStatus($("authStatus"),error.message);}
  finally{
@@ -418,321 +378,181 @@ $("authForm").addEventListener("submit",async event=>{
   $("authSubmit").textContent=authMode==="signup"?"Create account":"Log in";
  }
 });
-
-function getActiveChat(){
- return chatHistory.find(chat=>chat.id===activeChatId)||null;
-}
-function makeId(){
- return crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);
-}
+function getActiveChat(){return chatHistory.find(chat=>chat.id===activeChatId)||null;}
+function makeId(){return crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2);}
 function createChat(){
  const chat={id:makeId(),title:"New Chat",updatedAt:new Date().toISOString(),messages:[]};
- chatHistory.push(chat);activeChatId=chat.id;
- saveHistory();renderMessages([]);
- clearStatus($("chatStatus"));
- $("newChatBtn").classList.add("active");
- $("historyBtn").classList.remove("active");
- closeSidebar();
+ chatHistory.push(chat);activeChatId=chat.id;saveHistory();renderMessages([]);
+ clearStatus($("chatStatus"));$("newChatBtn").classList.add("active");
+ $("historyBtn").classList.remove("active");closeSidebar();
 }
 function ensureActiveChat(){
  let chat=getActiveChat();
- if(!chat){
-  chat={id:makeId(),title:"New Chat",updatedAt:new Date().toISOString(),messages:[]};
-  chatHistory.push(chat);activeChatId=chat.id;
- }
+ if(!chat){chat={id:makeId(),title:"New Chat",updatedAt:new Date().toISOString(),messages:[]};chatHistory.push(chat);activeChatId=chat.id;}
  return chat;
 }
 function addMessageElement(role,text){
- $("welcome").classList.add("hidden");
- $("messages").classList.remove("hidden");
- const row=document.createElement("div");
- row.className="message "+role;
- const avatar=document.createElement("div");
- avatar.className="avatar";
- avatar.textContent=role==="user"?"👤":"✦";
- const content=document.createElement("div");
- content.className="message-content";
- const bubble=document.createElement("div");
- bubble.className="bubble";bubble.textContent=text;
- content.appendChild(bubble);
-
+ $("welcome").classList.add("hidden");$("messages").classList.remove("hidden");
+ const row=document.createElement("div");row.className="message "+role;
+ const avatar=document.createElement("div");avatar.className="avatar";avatar.textContent=role==="user"?"👤":"✦";
+ const content=document.createElement("div");content.className="message-content";
+ const bubble=document.createElement("div");bubble.className="bubble";bubble.textContent=text;content.appendChild(bubble);
  if(role==="assistant"&&text!=="Thinking..."){
-  const actions=document.createElement("div");
-  actions.className="message-actions";
-  const copyButton=document.createElement("button");
-  copyButton.type="button";copyButton.className="small-btn";copyButton.textContent="Copy";
+  const actions=document.createElement("div");actions.className="message-actions";
+  const copyButton=document.createElement("button");copyButton.type="button";copyButton.className="small-btn";copyButton.textContent="Copy";
   copyButton.addEventListener("click",async()=>{
-   try{
-    await navigator.clipboard.writeText(bubble.textContent);
-    copyButton.textContent="Copied";
-    setTimeout(()=>copyButton.textContent="Copy",1500);
-   }catch{setStatus($("chatStatus"),"Copy was unavailable. Select the answer text manually.");}
+   try{await navigator.clipboard.writeText(bubble.textContent);copyButton.textContent="Copied";setTimeout(()=>copyButton.textContent="Copy",1500);}
+   catch{setStatus($("chatStatus"),"Copy was unavailable. Select the answer text manually.");}
   });
-  const speakButton=document.createElement("button");
-  speakButton.type="button";speakButton.className="small-btn";speakButton.textContent="Read aloud";
+  const speakButton=document.createElement("button");speakButton.type="button";speakButton.className="small-btn";speakButton.textContent="Read aloud";
   speakButton.addEventListener("click",()=>{
-   if(!("speechSynthesis" in window)){
-    setStatus($("chatStatus"),"Text-to-speech is not supported in this browser.");return;
-   }
-   speechSynthesis.cancel();
-   speechSynthesis.speak(new SpeechSynthesisUtterance(bubble.textContent));
+   if(!("speechSynthesis" in window)){setStatus($("chatStatus"),"Text-to-speech is not supported in this browser.");return;}
+   speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(bubble.textContent));
   });
-  actions.append(copyButton,speakButton);
-  content.appendChild(actions);
+  actions.append(copyButton,speakButton);content.appendChild(actions);
  }
- row.append(avatar,content);
- $("messages").appendChild(row);
- $("messages").scrollTop=$("messages").scrollHeight;
+ row.append(avatar,content);$("messages").appendChild(row);$("messages").scrollTop=$("messages").scrollHeight;
  return bubble;
 }
 function renderMessages(messages=[]){
  $("messages").replaceChildren();
- if(!messages.length){
-  $("messages").classList.add("hidden");
-  $("welcome").classList.remove("hidden");
-  return;
- }
- $("welcome").classList.add("hidden");
- $("messages").classList.remove("hidden");
+ if(!messages.length){$("messages").classList.add("hidden");$("welcome").classList.remove("hidden");return;}
+ $("welcome").classList.add("hidden");$("messages").classList.remove("hidden");
  messages.forEach(message=>addMessageElement(message.role,message.text));
  $("messages").scrollTop=$("messages").scrollHeight;
 }
 function renderHistoryList(){
- const container=$("historyList");
- if(!container)return;
- container.replaceChildren();
+ const container=$("historyList");if(!container)return;container.replaceChildren();
  [...chatHistory].reverse().forEach(chat=>{
-  const row=document.createElement("div");
-  row.className="history-item"+(chat.id===activeChatId?" active":"");
-  const open=document.createElement("button");
-  open.type="button";open.className="history-name";
-  open.textContent=chat.title||"New Chat";
+  const row=document.createElement("div");row.className="history-item"+(chat.id===activeChatId?" active":"");
+  const open=document.createElement("button");open.type="button";open.className="history-name";open.textContent=chat.title||"New Chat";
   open.addEventListener("click",()=>{
-   activeChatId=chat.id;
-   renderMessages(chat.messages||[]);
-   renderHistoryList();closeSidebar();
-   $("newChatBtn").classList.remove("active");
-   $("historyBtn").classList.add("active");
+   activeChatId=chat.id;renderMessages(chat.messages||[]);renderHistoryList();closeSidebar();
+   $("newChatBtn").classList.remove("active");$("historyBtn").classList.add("active");
   });
-  const remove=document.createElement("button");
-  remove.type="button";remove.className="history-delete";
-  remove.textContent="×";remove.title="Delete this conversation";
-  remove.setAttribute("aria-label","Delete conversation");
+  const remove=document.createElement("button");remove.type="button";remove.className="history-delete";
+  remove.textContent="×";remove.title="Delete this conversation";remove.setAttribute("aria-label","Delete conversation");
   remove.addEventListener("click",event=>{
-   event.stopPropagation();
-   if(!confirm("Delete this conversation?"))return;
+   event.stopPropagation();if(!confirm("Delete this conversation?"))return;
    chatHistory=chatHistory.filter(item=>item.id!==chat.id);
-   if(activeChatId===chat.id){activeChatId=null;renderMessages([]);}
-   saveHistory();
+   if(activeChatId===chat.id){activeChatId=null;renderMessages([]);}saveHistory();
   });
   row.append(open,remove);container.appendChild(row);
  });
 }
-
 function setTool(tool){
- if(!toolDetails[tool])tool="chat";
- activeTool=tool;
- document.querySelectorAll(".tool-select").forEach(button=>{
-  button.classList.toggle("active",button.dataset.tool===tool);
- });
- const details=toolDetails[tool];
- $("toolMode").classList.toggle("hidden",tool==="chat");
+ if(!toolDetails[tool])tool="chat";activeTool=tool;
+ document.querySelectorAll(".tool-select").forEach(button=>button.classList.toggle("active",button.dataset.tool===tool));
+ const details=toolDetails[tool];$("toolMode").classList.toggle("hidden",tool==="chat");
  $("toolModeName").textContent=tool==="chat"?"":details.title;
  $("toolModeDescription").textContent=tool==="chat"?"":details.description;
- $("prompt").placeholder=details.placeholder;
- closeSidebar();
+ $("prompt").placeholder=details.placeholder;closeSidebar();
 }
-document.querySelectorAll(".tool-select").forEach(button=>{
- button.addEventListener("click",()=>{
-  setTool(button.dataset.tool);
-  $("prompt").focus();
- });
-});
-document.querySelectorAll(".tool-chip").forEach(button=>{
- button.addEventListener("click",()=>{
-  if(button.dataset.tool){
-   setTool(button.dataset.tool);
-   $("prompt").focus();
-  }else if(button.dataset.prompt){
-   setTool("chat");
-   $("prompt").value=button.dataset.prompt;
-   $("prompt").focus();
-  }
- });
-});
-$("clearToolBtn").addEventListener("click",()=>{
- setTool("chat");$("prompt").focus();
-});
-
+document.querySelectorAll(".tool-select").forEach(button=>button.addEventListener("click",()=>{
+ setTool(button.dataset.tool);$("prompt").focus();
+}));
+document.querySelectorAll(".tool-chip").forEach(button=>button.addEventListener("click",()=>{
+ if(button.dataset.tool){setTool(button.dataset.tool);$("prompt").focus();}
+ else if(button.dataset.prompt){setTool("chat");$("prompt").value=button.dataset.prompt;$("prompt").focus();}
+}));
+$("clearToolBtn").addEventListener("click",()=>{setTool("chat");$("prompt").focus();});
 function toggleAttachMenu(force){
  const open=typeof force==="boolean"?force:$("attachMenu").classList.contains("hidden");
- $("attachMenu").classList.toggle("hidden",!open);
- $("attachBtn").setAttribute("aria-expanded",String(open));
+ $("attachMenu").classList.toggle("hidden",!open);$("attachBtn").setAttribute("aria-expanded",String(open));
 }
 $("attachBtn").addEventListener("click",()=>toggleAttachMenu());
-document.addEventListener("click",event=>{
- if(!$("attachMenu").contains(event.target)&&event.target!==$("attachBtn")){
-  toggleAttachMenu(false);
- }
-});
-document.querySelectorAll("[data-attach]").forEach(button=>{
- button.addEventListener("click",()=>{
-  const type=button.dataset.attach;
-  toggleAttachMenu(false);
-  if(type==="camera")$("cameraInput").click();
-  if(type==="photos")$("photoInput").click();
-  if(type==="files")$("fileInput").click();
- });
-});
+document.addEventListener("click",event=>{if(!$("attachMenu").contains(event.target)&&event.target!==$("attachBtn"))toggleAttachMenu(false);});
+document.querySelectorAll("[data-attach]").forEach(button=>button.addEventListener("click",()=>{
+ const type=button.dataset.attach;toggleAttachMenu(false);
+ if(type==="camera")$("cameraInput").click();
+ if(type==="photos")$("photoInput").click();
+ if(type==="files")$("fileInput").click();
+}));
 function handleFile(file){
  if(!file)return;
  if(file.size>5*1024*1024){
-  selectedFile=null;
-  $("filePreview").classList.add("hidden");
-  setStatus($("chatStatus"),"This file is larger than 5 MB. Choose a smaller file.");
-  return;
+  selectedFile=null;$("filePreview").classList.add("hidden");
+  setStatus($("chatStatus"),"This file is larger than 5 MB. Choose a smaller file.");return;
  }
- selectedFile=file;
- $("filePreview").textContent="📎 "+file.name+" · "+Math.ceil(file.size/1024)+" KB";
+ selectedFile=file;$("filePreview").textContent="📎 "+file.name+" · "+Math.ceil(file.size/1024)+" KB";
  $("filePreview").classList.remove("hidden");
  const isImage=file.type.startsWith("image/");
  setStatus($("chatStatus"),isImage?
   "Image selected. This version does not send image contents to the AI server.":"File selected. This version does not upload or analyze file contents. Paste relevant text into your message.","success");
 }
-["cameraInput","photoInput","fileInput"].forEach(id=>{
- $(id).addEventListener("change",event=>{
-  handleFile(event.target.files[0]);
- });
-});
-
+["cameraInput","photoInput","fileInput"].forEach(id=>$(id).addEventListener("change",event=>handleFile(event.target.files[0])));
 async function sendMessage(message){
  const data=await api("/chat",{method:"POST",body:JSON.stringify({prompt:message})});
- if(typeof data.reply!=="string"||!data.reply.trim()){
-  throw new Error("The server returned an empty reply. Check the Worker /chat response format.");
- }
+ if(typeof data.reply!=="string"||!data.reply.trim())throw new Error("The server returned an empty reply. Check the Worker /chat response format.");
  return data.reply;
-}
-
-$("chatForm").addEventListener("submit",async event=>{
- event.preventDefault();
- if(busy)return;
+}$("chatForm").addEventListener("submit",async event=>{
+ event.preventDefault();if(busy)return;
  let message=$("prompt").value.trim();
  if(!message&&!selectedFile)return;
  if(!message&&selectedFile)message="I selected the file "+selectedFile.name+". Please note: this version cannot read the file contents yet.";
- if(!token){
-  showAuth();setStatus($("authStatus"),"Please log in to continue.");return;
- }
- if(activeTool!=="chat"){
-  message=(toolInstructions[activeTool]||"")+message;
- }
- busy=true;
- $("sendBtn").disabled=true;
- $("prompt").disabled=true;
- $("voiceBtn").disabled=true;
- clearStatus($("chatStatus"));
- $("prompt").value="";
- $("prompt").style.height="auto";
- const chat=ensureActiveChat();
- if(!chat.messages.length)chat.title=message.slice(0,45);
- chat.messages.push({role:"user",text:message});
- chat.updatedAt=new Date().toISOString();
+ if(!token){showAuth();setStatus($("authStatus"),"Please log in to continue.");return;}
+ if(activeTool!=="chat")message=(toolInstructions[activeTool]||"")+message;
+ busy=true;$("sendBtn").disabled=true;$("prompt").disabled=true;$("voiceBtn").disabled=true;clearStatus($("chatStatus"));
+ $("prompt").value="";$("prompt").style.height="auto";
+ const chat=ensureActiveChat();if(!chat.messages.length)chat.title=message.slice(0,45);
+ chat.messages.push({role:"user",text:message});chat.updatedAt=new Date().toISOString();
  saveHistory();addMessageElement("user",message);
- const replyBubble=addMessageElement("assistant","Thinking...");
- let completed=false;
+ const replyBubble=addMessageElement("assistant","Thinking...");let completed=false;
  try{
-  const reply=await sendMessage(message);
-  replyBubble.textContent=reply;
-  chat.messages.push({role:"assistant",text:reply});
-  chat.updatedAt=new Date().toISOString();
-  saveHistory();completed=true;
+  const reply=await sendMessage(message);replyBubble.textContent=reply;
+  chat.messages.push({role:"assistant",text:reply});chat.updatedAt=new Date().toISOString();saveHistory();completed=true;
  }catch(error){
-  replyBubble.textContent="Sorry, the request failed.";
-  setStatus($("chatStatus"),error.message);
+  replyBubble.textContent="Sorry, the request failed.";setStatus($("chatStatus"),error.message);
   if(/HTTP 401|unauthorized|token/i.test(error.message)){
-   saveToken("");showAuth();
-   setStatus($("authStatus"),"Your session may have expired. Please log in again.");
+   saveToken("");showAuth();setStatus($("authStatus"),"Your session may have expired. Please log in again.");
   }
  }finally{
-  busy=false;
-  $("sendBtn").disabled=false;
-  $("prompt").disabled=false;
-  $("voiceBtn").disabled=false;
-  $("prompt").focus();
-  $("messages").scrollTop=$("messages").scrollHeight;
+  busy=false;$("sendBtn").disabled=false;$("prompt").disabled=false;$("voiceBtn").disabled=false;
+  $("prompt").focus();$("messages").scrollTop=$("messages").scrollHeight;
   if(!completed){chat.updatedAt=new Date().toISOString();saveHistory();}
   if(completed&&activeTool==="voice"&&"speechSynthesis" in window){
    const last=chat.messages[chat.messages.length-1];
-   if(last&&last.role==="assistant"){
-    speechSynthesis.cancel();
-    speechSynthesis.speak(new SpeechSynthesisUtterance(last.text));
-   }
+   if(last&&last.role==="assistant"){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(last.text));}
   }
-  selectedFile=null;
-  $("filePreview").classList.add("hidden");
-  $("filePreview").textContent="";
-  $("cameraInput").value="";
-  $("photoInput").value="";
-  $("fileInput").value="";
+  selectedFile=null;$("filePreview").classList.add("hidden");$("filePreview").textContent="";
+  $("cameraInput").value="";$("photoInput").value="";$("fileInput").value="";
  }
 });
 $("prompt").addEventListener("input",()=>{
- const input=$("prompt");
- input.style.height="auto";
- input.style.height=Math.min(input.scrollHeight,160)+"px";
+ const input=$("prompt");input.style.height="auto";input.style.height=Math.min(input.scrollHeight,160)+"px";
 });
 $("prompt").addEventListener("keydown",event=>{
- if(event.key==="Enter"&&!event.shiftKey){
-  event.preventDefault();$("chatForm").requestSubmit();
- }
+ if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();$("chatForm").requestSubmit();}
 });
-
 function startVoiceInput(){
  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SpeechRecognition){
-  setStatus($("chatStatus"),"Voice typing is not supported in this browser. Try Chrome and check microphone permission.");
-  return;
- }
- if(listening&&recognition){
-  recognition.stop();return;
- }
- recognition=new SpeechRecognition();
- recognition.lang="en-US";
- recognition.interimResults=true;
- recognition.continuous=false;
+ if(!SpeechRecognition){setStatus($("chatStatus"),"Voice typing is not supported in this browser. Try Chrome and check microphone permission.");return;}
+ if(listening&&recognition){recognition.stop();return;}
+ recognition=new SpeechRecognition();recognition.lang="en-US";recognition.interimResults=true;recognition.continuous=false;
  let finalText="";
  recognition.onstart=()=>{
-  listening=true;
-  $("voiceBtn").classList.add("listening");
-  $("voiceBtn").textContent="■";
-  $("voiceBtn").setAttribute("aria-label","Stop voice typing");
-  setStatus($("chatStatus"),"Listening… speak now.","success");
+  listening=true;$("voiceBtn").classList.add("listening");$("voiceBtn").textContent="■";
+  $("voiceBtn").setAttribute("aria-label","Stop voice typing");setStatus($("chatStatus"),"Listening… speak now.","success");
  };
  recognition.onresult=event=>{
   let interim="";
   for(let i=event.resultIndex;i<event.results.length;i++){
-   const text=event.results[i][0].transcript;
-   if(event.results[i].isFinal)finalText+=text;
-   else interim+=text;
+   const text=event.results[i][0].transcript;if(event.results[i].isFinal)finalText+=text;else interim+=text;
   }
-  $("prompt").value=(finalText+interim).trim();
-  $("prompt").dispatchEvent(new Event("input"));
+  $("prompt").value=(finalText+interim).trim();$("prompt").dispatchEvent(new Event("input"));
  };
  recognition.onerror=event=>{
   setStatus($("chatStatus"),event.error==="not-allowed"?
-   "Microphone permission was denied. Allow microphone access in your browser settings.":
-   "Voice input stopped: "+event.error);
+   "Microphone permission was denied. Allow microphone access in your browser settings.":"Voice input stopped: "+event.error);
  };
  recognition.onend=()=>{
-  listening=false;
-  $("voiceBtn").classList.remove("listening");
-  $("voiceBtn").textContent="🎙";
+  listening=false;$("voiceBtn").classList.remove("listening");$("voiceBtn").textContent="🎙";
   $("voiceBtn").setAttribute("aria-label","Speak your message");
   if(finalText.trim())setStatus($("chatStatus"),"Voice text added. Press send when ready.","success");
  };
  recognition.start();
 }
 $("voiceBtn").addEventListener("click",startVoiceInput);
-
 $("newChatBtn").addEventListener("click",createChat);
 $("historyBtn").addEventListener("click",()=>{
  loadHistory();
@@ -742,30 +562,24 @@ $("historyBtn").addEventListener("click",()=>{
 });
 $("clearHistoryBtn").addEventListener("click",()=>{
  if(!confirm("Delete all saved conversations for this account?"))return;
- chatHistory=[];activeChatId=null;saveHistory();renderMessages([]);
- clearStatus($("chatStatus"));closeSidebar();
+ chatHistory=[];activeChatId=null;saveHistory();renderMessages([]);clearStatus($("chatStatus"));closeSidebar();
 });
 $("exportBtn").addEventListener("click",()=>{
  const blob=new Blob([JSON.stringify(chatHistory,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob);
- const link=document.createElement("a");
+ const url=URL.createObjectURL(blob);const link=document.createElement("a");
  link.href=url;link.download="ai-genius-conversations.json";link.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
- setStatus($("chatStatus"),"Conversation export prepared.","success");
+ setTimeout(()=>URL.revokeObjectURL(url),1000);setStatus($("chatStatus"),"Conversation export prepared.","success");
 });
 function closeSidebar(){
- $("sidebar").classList.remove("open");
- $("mobileOverlay").classList.remove("visible");
+ $("sidebar").classList.remove("open");$("mobileOverlay").classList.remove("visible");
  $("menuBtn").setAttribute("aria-expanded","false");
 }
 $("menuBtn").addEventListener("click",()=>{
  const open=!$("sidebar").classList.contains("open");
- $("sidebar").classList.toggle("open",open);
- $("mobileOverlay").classList.toggle("visible",open);
+ $("sidebar").classList.toggle("open",open);$("mobileOverlay").classList.toggle("visible",open);
  $("menuBtn").setAttribute("aria-expanded",String(open));
 });
 $("mobileOverlay").addEventListener("click",closeSidebar);
-
 let lightTheme=false;
 try{lightTheme=localStorage.getItem("ai_genius_theme")==="light";}catch{}
 function applyTheme(){
@@ -775,36 +589,24 @@ function applyTheme(){
  document.querySelector('meta[name="theme-color"]').content=lightTheme?"#e9ebf0":"#111318";
 }
 $("themeBtn").addEventListener("click",()=>{
- lightTheme=!lightTheme;
- applyTheme();
+ lightTheme=!lightTheme;applyTheme();
  try{localStorage.setItem("ai_genius_theme",lightTheme?"light":"dark");}catch{}
 });
 applyTheme();
-
 $("logoutBtn").addEventListener("click",async()=>{
  try{if(token)await api("/auth/logout",{method:"POST"});}
  catch(error){console.warn("Logout endpoint response:",error.message);}
- saveToken("");saveUser(null);
- currentUser=null;chatHistory=[];activeChatId=null;
- $("messages").replaceChildren();
- $("messages").classList.add("hidden");
- $("welcome").classList.remove("hidden");
- showAuth();setAuthMode("login");
- setStatus($("authStatus"),"You have logged out.","success");
- closeSidebar();
+ saveToken("");saveUser(null);currentUser=null;chatHistory=[];activeChatId=null;
+ $("messages").replaceChildren();$("messages").classList.add("hidden");$("welcome").classList.remove("hidden");
+ showAuth();setAuthMode("login");setStatus($("authStatus"),"You have logged out.","success");closeSidebar();
 });
-
 async function initialize(){
- try{
-  const savedUser=localStorage.getItem(USER_KEY);
-  if(savedUser)currentUser=JSON.parse(savedUser);
- }catch{currentUser=null;}
+ try{const savedUser=localStorage.getItem(USER_KEY);if(savedUser)currentUser=JSON.parse(savedUser);}
+ catch{currentUser=null;}
  if(currentUser)$("accountEmail").textContent=currentUser.email||"Account";
  if(!token){showAuth();return;}
  try{
-  const data=await api("/auth/me",{method:"GET"});
-  saveUser(data.user||currentUser);
-  showChat();
+  const data=await api("/auth/me",{method:"GET"});saveUser(data.user||currentUser);showChat();
  }catch(error){
   saveToken("");saveUser(null);showAuth();
   setStatus($("authStatus"),"Could not verify your session. Please log in. "+error.message);
@@ -814,4 +616,3 @@ initialize();
 </script>
 </body>
 </html>
-
