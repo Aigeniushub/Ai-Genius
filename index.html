@@ -485,7 +485,8 @@ async function sendMessage(message){
  const data=await api("/chat",{method:"POST",body:JSON.stringify({prompt:message})});
  if(typeof data.reply!=="string"||!data.reply.trim())throw new Error("The server returned an empty reply. Check the Worker /chat response format.");
  return data.reply;
-}$("chatForm").addEventListener("submit",async event=>{
+}
+ $("chatForm").addEventListener("submit",async event=>{
  event.preventDefault();if(busy)return;
  let message=$("prompt").value.trim();
  if(!message&&!selectedFile)return;
